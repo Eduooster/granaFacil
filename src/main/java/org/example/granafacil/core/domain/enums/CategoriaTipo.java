@@ -1,0 +1,57 @@
+package org.example.granafacil.core.domain.enums;
+
+public enum CategoriaTipo {
+
+    SALARIO,
+    DECIMO_TERCEIRO,
+    FERIAS,
+    BONUS,
+    RENDIMENTOS,
+    PRESENTES,
+    OUTRAS_RECEITAS,
+
+
+    ALUGUEL,
+    CONDOMINIO,
+    AGUA,
+    LUZ,
+    GAS,
+    INTERNET,
+    TELEFONE,
+    STREAMING,
+    SEGURO,
+    FINANCIAMENTO,
+
+
+    MERCADO,
+    ALIMENTACAO,
+    TRANSPORTE,
+    COMBUSTIVEL,
+    FARMACIA,
+    SAUDE,
+    EDUCACAO,
+    LAZER,
+    ROUPAS,
+    PRESENTES_DESPESA,
+
+
+    INVESTIMENTOS,
+    TAXAS,
+    TARIFAS_BANCARIAS,
+    JUROS,
+    MULTAS,
+
+
+    MANUTENCAO_RESIDENCIA,
+    MOVEIS_E_ELETRODOMESTICOS,
+
+
+    MANUTENCAO_VEICULO,
+    ESTACIONAMENTO,
+    PEDAGIO,
+
+
+    OUTRAS_DESPESAS
+}
+
+
