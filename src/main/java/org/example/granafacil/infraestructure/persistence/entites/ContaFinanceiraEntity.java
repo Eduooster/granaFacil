@@ -16,7 +16,11 @@ public class ContaFinanceiraEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "conexao_id")
     private ConexaoOpenFinanceEntity conexaoOpenFinance;
+
+
+
 
     private String type;
     private String subtype;

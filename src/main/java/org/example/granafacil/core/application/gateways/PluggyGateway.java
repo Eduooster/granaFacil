@@ -2,9 +2,7 @@ package org.example.granafacil.core.application.gateways;
 
 
 import org.example.granafacil.core.application.dtos.PluggyItemAccounts;
-import org.example.granafacil.core.application.dtos.PluggyTransactions;
 import org.example.granafacil.core.application.dtos.TransactionsResponse;
-import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;

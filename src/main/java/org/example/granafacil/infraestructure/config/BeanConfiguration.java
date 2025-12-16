@@ -11,30 +11,36 @@ import org.springframework.context.annotation.Configuration;
 public class BeanConfiguration {
 
     @Bean
-    public AutenticacaoUsuarioUseCase autenticacaoUsuarioUseCase(UsuarioGateway usuarioGateway,
-                                                                 PasswordEncoderGateway passwordEncoderGateway, TokenServiceGateway tokenServiceGateway) {
-        return new AutenticacaoUsuarioUseCase(usuarioGateway, passwordEncoderGateway, tokenServiceGateway);
-    }
-
-    @Bean
-    public RegistrarUsuarioUseCase registrarUsuarioUseCase(UsuarioGateway usuarioGateway, PasswordEncoderGateway passwordEncoderGateway, TokenServiceGateway tokenServiceGateway) {
-        return new RegistrarUsuarioUseCase(passwordEncoderGateway,usuarioGateway,tokenServiceGateway);
+    public RefreshTokenUseCase refreshTokenUseCase(RefreshTokenRepository refreshTokenRepository, TokenServiceGateway tokenServiceGateway, RefreshTokenGenerator refreshTokenGenerator) {
+        return new RefreshTokenUseCase(refreshTokenRepository, tokenServiceGateway,refreshTokenGenerator);
 
     }
 
     @Bean
-    public AtualizarObjetivoFinanceirolUsuario atualizarObjetivoFinanceiroUsuario(UsuarioGateway usuarioGateway) {
-        return new AtualizarObjetivoFinanceirolUsuario(usuarioGateway);
-
-    }
-    @Bean
-    public AtualizarFormaGerenciamentoFinancasUsuario atualizarFormaGerenciamentoFinancasUsuario(UsuarioGateway usuarioGateway) {
-        return new AtualizarFormaGerenciamentoFinancasUsuario(usuarioGateway);
+    public AutenticacaoUsuarioUseCase autenticacaoUsuarioUseCase(UsuarioRepository usuarioRepository,
+                                                                 PasswordEncoderService passwordEncoderService, TokenServiceGateway tokenServiceGateway, RefreshTokenRepository refreshTokenRepository, RefreshTokenGenerator refreshTokenGenerator ) {
+        return new AutenticacaoUsuarioUseCase(usuarioRepository, passwordEncoderService, tokenServiceGateway, refreshTokenRepository,refreshTokenGenerator);
     }
 
     @Bean
-    public AtualizarPerfilFinanceiroUsuario atualizarPerfilFinanceiroUsuario(UsuarioGateway usuarioGateway) {
-        return new AtualizarPerfilFinanceiroUsuario(usuarioGateway);
+    public RegistrarUsuarioUseCase registrarUsuarioUseCase(UsuarioRepository usuarioRepository, PasswordEncoderService passwordEncoderService, TokenServiceGateway tokenServiceGateway, RefreshTokenRepository refreshTokenRepository, RefreshTokenGenerator refreshTokenGenerator) {
+        return new RegistrarUsuarioUseCase(passwordEncoderService, usuarioRepository,tokenServiceGateway, refreshTokenRepository,refreshTokenGenerator);
+
+    }
+
+    @Bean
+    public AtualizarObjetivoFinanceirolUsuario atualizarObjetivoFinanceiroUsuario(UsuarioRepository usuarioRepository) {
+        return new AtualizarObjetivoFinanceirolUsuario(usuarioRepository);
+
+    }
+    @Bean
+    public AtualizarFormaGerenciamentoFinancasUsuario atualizarFormaGerenciamentoFinancasUsuario(UsuarioRepository usuarioRepository) {
+        return new AtualizarFormaGerenciamentoFinancasUsuario(usuarioRepository);
+    }
+
+    @Bean
+    public AtualizarPerfilFinanceiroUsuario atualizarPerfilFinanceiroUsuario(UsuarioRepository usuarioRepository) {
+        return new AtualizarPerfilFinanceiroUsuario(usuarioRepository);
     }
 
     @Bean
@@ -48,18 +54,22 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public PluggyClientItemUseCase pluggyClientItemUseCase(UsuarioGateway usuarioGateway, ConexaoOpenFinanceGateway conexaoOpenFinanceGateway, ContaFinanceiraGateway contaFinanceiraGateway,PluggyGateway pluggyGateway ,InstituicaoFinanceiraGateway instituicaoFinanceiraGateway, OpenFinanceApplicationService openFinanceApplicationService,SincronizarContaGateway sincronizarContaGateway) {
-        return new PluggyClientItemUseCase(usuarioGateway,conexaoOpenFinanceGateway,contaFinanceiraGateway,pluggyGateway,instituicaoFinanceiraGateway,openFinanceApplicationService,sincronizarContaGateway);
+    public PluggyClientItemUseCase pluggyClientItemUseCase(UsuarioRepository usuarioRepository, ConexaoOpenFinanceRepository conexaoOpenFinanceRepository, ContaFinanceiraRepository contaFinanceiraRepository, PluggyGateway pluggyGateway , InstituicaoFinanceiraRepository instituicaoFinanceiraGateway, OpenFinanceApplicationService openFinanceApplicationService, SincronizarContaRepository sincronizarContaRepository) {
+        return new PluggyClientItemUseCase(usuarioRepository, conexaoOpenFinanceRepository, contaFinanceiraRepository,pluggyGateway,instituicaoFinanceiraGateway,openFinanceApplicationService, sincronizarContaRepository);
     }
 
     @Bean
-    public ExecutarSincronizacaoUseCase executarSincronizacaoUseCase(PluggyGateway pluggyGateway,SincronizarContaGateway sincronizarContaGateway, TransacaoGateway transacaoGateway){
-        return new ExecutarSincronizacaoUseCase(pluggyGateway,sincronizarContaGateway,transacaoGateway);
+    public ExecutarSincronizacaoUseCase executarSincronizacaoUseCase(PluggyGateway pluggyGateway, SincronizarContaRepository sincronizarContaRepository, TransacaoRepository transacaoRepository){
+        return new ExecutarSincronizacaoUseCase(pluggyGateway, sincronizarContaRepository, transacaoRepository);
     }
 
     @Bean
-    public SincronizarTransacoesUseCase sincronizarTransacoesUseCase(SincronizarContaGateway sincronizarContaGateway, PluggyGateway pluggyGateway,ExecutarSincronizacaoUseCase executarSincronizacaoUseCase) {
-        return new SincronizarTransacoesUseCase(sincronizarContaGateway,pluggyGateway,executarSincronizacaoUseCase);
+    public SincronizarTransacoesUseCase sincronizarTransacoesUseCase(SincronizarContaRepository sincronizarContaRepository, PluggyGateway pluggyGateway, ExecutarSincronizacaoUseCase executarSincronizacaoUseCase) {
+        return new SincronizarTransacoesUseCase(sincronizarContaRepository,pluggyGateway,executarSincronizacaoUseCase);
 
+    }
+    @Bean
+    public PegarDadosUsuario pegarDadosUsuario(UsuarioRepository usuarioRepository) {
+        return new PegarDadosUsuario(usuarioRepository);
     }
 }

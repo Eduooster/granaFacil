@@ -1,11 +1,11 @@
 package org.example.granafacil.infraestructure.persistence.adapters;
 
-import org.example.granafacil.core.application.gateways.PasswordEncoderGateway;
+import org.example.granafacil.core.application.gateways.PasswordEncoderService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PassEncoderAdapter implements PasswordEncoderGateway {
+public class PassEncoderAdapter implements PasswordEncoderService {
 
     private final PasswordEncoder passwordEncoder;
     public PassEncoderAdapter(PasswordEncoder passwordEncoder) {

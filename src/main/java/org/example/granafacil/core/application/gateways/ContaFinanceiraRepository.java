@@ -4,7 +4,7 @@ import org.example.granafacil.core.domain.entities.ContaFinanceira;
 
 import java.util.List;
 
-public interface ContaFinanceiraGateway {
+public interface ContaFinanceiraRepository {
 
 
 

@@ -4,7 +4,7 @@ import org.example.granafacil.core.domain.entities.InstituicaoFinanceira;
 
 import java.util.Optional;
 
-public interface InstituicaoFinanceiraGateway {
+public interface InstituicaoFinanceiraRepository {
 
     InstituicaoFinanceira buscarPorId(Long id);
 

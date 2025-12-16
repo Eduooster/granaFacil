@@ -1,9 +1,8 @@
 package org.example.granafacil.infraestructure.persistence.adapters;
 
-import org.example.granafacil.core.application.gateways.ConexaoOpenFinanceGateway;
+import org.example.granafacil.core.application.gateways.ConexaoOpenFinanceRepository;
 import org.example.granafacil.core.domain.entities.ConexaoOpenFinance;
 import org.example.granafacil.infraestructure.persistence.mapper.ConexaoOpenFinanceEntityMapper;
-import org.example.granafacil.infraestructure.persistence.repositories.ConexaoOpenFinanceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -11,14 +10,14 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class JpaOpenFinanceAdapter implements ConexaoOpenFinanceGateway {
+public class JpaOpenFinanceAdapter implements ConexaoOpenFinanceRepository {
 
     private static final Logger log = LoggerFactory.getLogger(JpaOpenFinanceAdapter.class);
 
-    private final ConexaoOpenFinanceRepository conexaoOpenFinanceRepository;
+    private final org.example.granafacil.infraestructure.persistence.repositories.ConexaoOpenFinanceRepository conexaoOpenFinanceRepository;
     private final ConexaoOpenFinanceEntityMapper conexaoOpenFinanceEntityMapper;
 
-    public JpaOpenFinanceAdapter(ConexaoOpenFinanceRepository conexaoOpenFinanceRepository, ConexaoOpenFinanceEntityMapper conexaoOpenFinanceEntityMapper) {
+    public JpaOpenFinanceAdapter(org.example.granafacil.infraestructure.persistence.repositories.ConexaoOpenFinanceRepository conexaoOpenFinanceRepository, ConexaoOpenFinanceEntityMapper conexaoOpenFinanceEntityMapper) {
         this.conexaoOpenFinanceRepository = conexaoOpenFinanceRepository;
         this.conexaoOpenFinanceEntityMapper = conexaoOpenFinanceEntityMapper;
     }

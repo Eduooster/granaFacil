@@ -5,7 +5,7 @@ import org.example.granafacil.core.domain.entities.Transacao;
 import java.util.List;
 import java.util.Optional;
 
-public interface TransacaoGateway {
+public interface TransacaoRepository {
 
     Optional<Transacao> findByContaIdAndPluggyId(String contaId, String pluggyId);
 

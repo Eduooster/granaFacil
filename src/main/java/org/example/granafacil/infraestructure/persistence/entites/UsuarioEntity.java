@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.example.granafacil.core.domain.entities.ContaFinanceira;
 import org.example.granafacil.core.domain.enums.FormaGerenciarFinancas;
 import org.example.granafacil.core.domain.enums.ObjetivoFinanceiro;
 import org.example.granafacil.core.domain.enums.PerfilFinanceiro;
@@ -13,6 +14,7 @@ import org.hibernate.proxy.HibernateProxy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -25,28 +27,38 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class UsuarioEntity implements UserDetails {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nome;
     private String sobrenome;
 
+    @Column(nullable = false, unique = true)
     private String email;
+
+
+    @Column(name = "senha_hash", nullable = false)
     private String senhaHash;
 
     @Enumerated(EnumType.STRING)
     @Nullable
     private ObjetivoFinanceiro objetivo;
-    @Nullable
+
     @Enumerated(EnumType.STRING)
+    @Nullable
     private FormaGerenciarFinancas financas;
-    @Nullable
+
     @Enumerated(EnumType.STRING)
+    @Nullable
     private PerfilFinanceiro perfil;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<ConexaoOpenFinanceEntity> conexoes;
+
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ConexaoOpenFinanceEntity> conexoes = new ArrayList<>();
+
+
+
 
 
     @Override

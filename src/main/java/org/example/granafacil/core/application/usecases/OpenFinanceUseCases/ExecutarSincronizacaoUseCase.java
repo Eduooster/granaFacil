@@ -4,32 +4,43 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.granafacil.core.application.dtos.TransactionDTO;
 import org.example.granafacil.core.application.dtos.TransactionsResponse;
 import org.example.granafacil.core.application.gateways.PluggyGateway;
-import org.example.granafacil.core.application.gateways.SincronizarContaGateway;
-import org.example.granafacil.core.application.gateways.TransacaoGateway;
+import org.example.granafacil.core.application.gateways.SincronizarContaRepository;
+import org.example.granafacil.core.application.gateways.TransacaoRepository;
+import org.example.granafacil.core.application.services.CategoriaService;
 import org.example.granafacil.core.domain.entities.SincronizacaoConta;
 import org.example.granafacil.core.domain.entities.Transacao;
+import org.example.granafacil.core.domain.enums.CategoriaInterna;
 import org.example.granafacil.core.domain.enums.StatusSincronizacao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
+
 public class ExecutarSincronizacaoUseCase {
 
+    private static final Logger log = LoggerFactory.getLogger(ExecutarSincronizacaoUseCase.class);
     private final PluggyGateway pluggyGateway;
-    private final SincronizarContaGateway sincronizarContaGateway;
-    private final TransacaoGateway transacaoGateway;
+    private final SincronizarContaRepository sincronizarContaRepository;
+    private final TransacaoRepository transacaoRepository;
+
 
     public ExecutarSincronizacaoUseCase(
             PluggyGateway pluggyGateway,
-            SincronizarContaGateway sincronizarContaGateway,
-            TransacaoGateway transacaoGateway) {
+            SincronizarContaRepository sincronizarContaRepository,
+            TransacaoRepository transacaoRepository
+    )
+
+    {
 
         this.pluggyGateway = pluggyGateway;
-        this.sincronizarContaGateway = sincronizarContaGateway;
-        this.transacaoGateway = transacaoGateway;
+        this.sincronizarContaRepository = sincronizarContaRepository;
+        this.transacaoRepository = transacaoRepository;
+
+
     }
 
     public void executar(SincronizacaoConta sync) {
@@ -62,27 +73,29 @@ public class ExecutarSincronizacaoUseCase {
             sync.setPaginaAtual(page);
 
 
-            sincronizarContaGateway.save(sync);
+            sincronizarContaRepository.save(sync);
         }
 
         sync.setStatusAtual(StatusSincronizacao.CONCLUIDO);
         sync.setPaginaAtual(1);
         sync.setUltimaDataSync(LocalDateTime.now());
 
-        sincronizarContaGateway.save(sync);
+        sincronizarContaRepository.save(sync);
     }
 
     private void upsertTransactionBatch(TransactionsResponse resposta, SincronizacaoConta sync) {
 
         List<Transacao> batchParaSalvar = new ArrayList<>();
+        CategoriaService categoriaService = new CategoriaService();
 
         for (TransactionDTO result : resposta.getResults()) {
 
-            Optional<Transacao> repo = transacaoGateway.findByContaIdAndPluggyId(sync.getIdConta(),result.getPluggyId());
+            Optional<Transacao> repo = transacaoRepository.findByContaIdAndPluggyId(sync.getIdConta(),result.getPluggyId());
 
             if (repo.isPresent()) {
 
                 Transacao t = repo.get();
+
 
                 t.setDescricao(result.getDescription());
                 t.setDescricaoRaw(result.getDescriptionRaw());
@@ -95,12 +108,16 @@ public class ExecutarSincronizacaoUseCase {
                 t.setData(result.getDate());
                 t.setSaldo(result.getBalance());
                 t.setDataAtualizacao(LocalDateTime.now());
+                t.setCategoriaInterna(categoriaService.pluggyToInterna.get(result.getPluggyId()));
 
                 batchParaSalvar.add(t);
 
             } else {
 
+
+
                 Transacao nova = new Transacao();
+
 
                 nova.setPluggyId(result.getId());
                 nova.setContaId(sync.getIdConta());
@@ -116,13 +133,16 @@ public class ExecutarSincronizacaoUseCase {
                 nova.setSaldo(result.getBalance());
                 nova.setDataImportacao(LocalDateTime.now());
                 nova.setDataAtualizacao(LocalDateTime.now());
+                nova.setCategoriaInterna(categoriaService.pluggyToInterna.get(result.getPluggyId()));
                 nova.setAtivo(true);
+
+                log.info("Cadasntrando nova transacao"+ nova);
 
                 batchParaSalvar.add(nova);
             }
         }
 
-        // <<<<<< SALVA TUDO DE UMA VEZ >>>>>
-        transacaoGateway.saveAll(batchParaSalvar);
+        log.info("batch para salvar" + batchParaSalvar);
+        transacaoRepository.saveAll(batchParaSalvar);
     }
 }

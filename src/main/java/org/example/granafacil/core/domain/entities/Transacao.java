@@ -1,5 +1,11 @@
 package org.example.granafacil.core.domain.entities;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import org.example.granafacil.core.domain.enums.CategoriaInterna;
+
+import org.example.granafacil.core.domain.enums.OrigemTransacao;
+
 import java.time.LocalDateTime;
 
 public class Transacao {
@@ -18,11 +24,45 @@ public class Transacao {
     private Double valor;
     private LocalDateTime data;
     private Double saldo;
+    @Enumerated(EnumType.STRING)
+    private CategoriaInterna categoriaInterna;
 
     private LocalDateTime dataImportacao;
     private LocalDateTime dataAtualizacao;
 
     private Boolean ativo;
+    @Enumerated(EnumType.STRING)
+    private OrigemTransacao origemTransacao;
+
+    @Override
+    public String toString() {
+        return "Transacao{" +
+                "id=" + id +
+                ", pluggyId='" + pluggyId + '\'' +
+                ", contaId='" + contaId + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", descricaoRaw='" + descricaoRaw + '\'' +
+                ", categoria='" + categoria + '\'' +
+                ", categoriaId='" + categoriaId + '\'' +
+                ", tipo='" + tipo + '\'' +
+                ", status='" + status + '\'' +
+                ", moeda='" + moeda + '\'' +
+                ", valor=" + valor +
+                ", data=" + data +
+                ", saldo=" + saldo +
+                ", dataImportacao=" + dataImportacao +
+                ", dataAtualizacao=" + dataAtualizacao +
+                ", ativo=" + ativo +
+                '}';
+    }
+
+    public CategoriaInterna getCategoriaInterna() {
+        return categoriaInterna;
+    }
+
+    public void setCategoriaInterna(CategoriaInterna categoriaInterna) {
+        this.categoriaInterna = categoriaInterna;
+    }
 
     public Long getId() {
         return id;

@@ -1,9 +1,8 @@
 package org.example.granafacil.infraestructure.persistence.adapters;
 
-import org.example.granafacil.core.application.gateways.ContaFinanceiraGateway;
+import org.example.granafacil.core.application.gateways.ContaFinanceiraRepository;
 import org.example.granafacil.core.domain.entities.ContaFinanceira;
 import org.example.granafacil.infraestructure.persistence.mapper.ContaFinanceiraMapper;
-import org.example.granafacil.infraestructure.persistence.repositories.ContaFinanceiraRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -11,14 +10,14 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class JpaContaFinanceiraAdapter implements ContaFinanceiraGateway {
+public class JpaContaFinanceiraAdapter implements ContaFinanceiraRepository {
     private static final Logger log = LoggerFactory.getLogger(JpaContaFinanceiraAdapter.class);
-    private final ContaFinanceiraRepository contaFinanceiraRepository;
+    private final org.example.granafacil.infraestructure.persistence.repositories.ContaFinanceiraRepository contaFinanceiraRepository;
 
     private final ContaFinanceiraMapper contaFinanceiraMapper;
 
 
-    public JpaContaFinanceiraAdapter(ContaFinanceiraRepository contaFinanceiraRepository, ContaFinanceiraMapper contaFinanceiraMapper) {
+    public JpaContaFinanceiraAdapter(org.example.granafacil.infraestructure.persistence.repositories.ContaFinanceiraRepository contaFinanceiraRepository, ContaFinanceiraMapper contaFinanceiraMapper) {
         this.contaFinanceiraRepository = contaFinanceiraRepository;
         this.contaFinanceiraMapper = contaFinanceiraMapper;
     }

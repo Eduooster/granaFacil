@@ -2,7 +2,7 @@ package org.example.granafacil.core.application.usecases.OpenFinanceUseCases;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.granafacil.core.application.gateways.PluggyGateway;
-import org.example.granafacil.core.application.gateways.SincronizarContaGateway;
+import org.example.granafacil.core.application.gateways.SincronizarContaRepository;
 import org.example.granafacil.core.domain.entities.SincronizacaoConta;
 import org.example.granafacil.core.domain.enums.StatusSincronizacao;
 
@@ -12,11 +12,11 @@ import java.util.List;
 @Slf4j
 public class SincronizarTransacoesUseCase {
 
-    private SincronizarContaGateway syncgateway;
+    private SincronizarContaRepository syncgateway;
     private PluggyGateway pluggyGateway;
     private ExecutarSincronizacaoUseCase executarSincronizacaoUseCase;
 
-    public SincronizarTransacoesUseCase(SincronizarContaGateway gateway, PluggyGateway pluggygateway, ExecutarSincronizacaoUseCase executarSincronizacaoUseCase) {
+    public SincronizarTransacoesUseCase(SincronizarContaRepository gateway, PluggyGateway pluggygateway, ExecutarSincronizacaoUseCase executarSincronizacaoUseCase) {
         this.syncgateway = gateway;
         this.pluggyGateway = pluggygateway;
         this.executarSincronizacaoUseCase = executarSincronizacaoUseCase;

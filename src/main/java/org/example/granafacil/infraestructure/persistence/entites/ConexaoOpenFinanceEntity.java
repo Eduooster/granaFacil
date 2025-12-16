@@ -14,19 +14,23 @@ import java.util.List;
 public class ConexaoOpenFinanceEntity {
 
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @OneToMany(mappedBy = "conexaoOpenFinance", cascade = CascadeType.ALL)
     private List<ContaFinanceiraEntity> contas;
+
     private String status;
+
     private LocalDateTime dataCriacao;
     private LocalDateTime dataExpiracaoToken;
     private LocalDateTime ultimoSync;
+
     private String pluggyItemId;
+
     @ManyToOne
     private InstituicaoFinanceiraEntity instituicaoFinanceira;
+
     private boolean ativo = true;
 
     @ManyToOne(fetch = FetchType.LAZY)

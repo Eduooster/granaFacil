@@ -5,7 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.granafacil.infraestructure.persistence.entites.UsuarioEntity;
-import org.example.granafacil.infraestructure.persistence.repositories.UsuarioRepository;
+import org.example.granafacil.infraestructure.persistence.repositories.UsuarioRepositoryImpl;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,12 +18,12 @@ import java.io.IOException;
 public class SecurityFilter extends OncePerRequestFilter {
 
     private final TokenServiceAdapter tokenServiceAdapter;
-    private final UsuarioRepository usuarioRepository;
+    private final UsuarioRepositoryImpl usuarioRepositoryImpl;
 
 
-    public SecurityFilter(TokenServiceAdapter tokenServiceAdapter, UsuarioRepository usuarioRepository) {
+    public SecurityFilter(TokenServiceAdapter tokenServiceAdapter, UsuarioRepositoryImpl usuarioRepositoryImpl) {
         this.tokenServiceAdapter = tokenServiceAdapter;
-        this.usuarioRepository = usuarioRepository;
+        this.usuarioRepositoryImpl = usuarioRepositoryImpl;
 
     }
 
@@ -39,11 +39,22 @@ public class SecurityFilter extends OncePerRequestFilter {
         var tokenJWT = recuperarToken(request);
         logger.info("tokenJWT: " + tokenJWT);
 
+        String path = request.getServletPath();
+
+        logger.info("path: " + path);
+
+        if (path.equals("/auth/refresh")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         if(tokenJWT != null) {
+
+
 
             var subject = tokenServiceAdapter.getSubject(tokenJWT);
             logger.info("subject: " + subject);
-            UsuarioEntity usuario = usuarioRepository.findById(Long.valueOf(subject))
+            UsuarioEntity usuario = usuarioRepositoryImpl.findById(Long.valueOf(subject))
                     .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
             logger.info("usuario: " + usuario);
 

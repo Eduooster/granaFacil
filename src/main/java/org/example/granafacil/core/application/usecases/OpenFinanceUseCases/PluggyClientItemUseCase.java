@@ -6,6 +6,7 @@ import org.example.granafacil.core.application.dtos.PluggyItemData;
 import org.example.granafacil.core.application.gateways.*;
 import org.example.granafacil.core.application.services.OpenFinanceApplicationService;
 import org.example.granafacil.core.domain.entities.*;
+import org.example.granafacil.core.domain.enums.OrigemTransacao;
 import org.example.granafacil.core.domain.exceptions.ItemJaRegistrado;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,23 +19,23 @@ public class PluggyClientItemUseCase {
 
     private static final Logger log = LoggerFactory.getLogger(PluggyClientItemUseCase.class);
 
-    private final UsuarioGateway usuarioGateway;
-    private final ConexaoOpenFinanceGateway conexaoGateway;
-    private final ContaFinanceiraGateway contaFinanceiraGateway;
+    private final UsuarioRepository usuarioRepository;
+    private final ConexaoOpenFinanceRepository conexaoGateway;
+    private final ContaFinanceiraRepository contaFinanceiraRepository;
     private final PluggyGateway pluggyGateway;
-    private final InstituicaoFinanceiraGateway instituicaoGateway;
+    private final InstituicaoFinanceiraRepository instituicaoGateway;
     private final OpenFinanceApplicationService openFinanceApplicationService;
-    private final SincronizarContaGateway sincronizarContaGateway;
+    private final SincronizarContaRepository sincronizarContaRepository;
 
 
-    public PluggyClientItemUseCase(UsuarioGateway usuarioGateway, ConexaoOpenFinanceGateway conexaoGateway, ContaFinanceiraGateway contaFinanceiraGateway, PluggyGateway pluggyGateway, InstituicaoFinanceiraGateway instituicaoGateway, OpenFinanceApplicationService openFinanceApplicationService, SincronizarContaGateway sincronizarContaGateway) {
-        this.usuarioGateway = usuarioGateway;
+    public PluggyClientItemUseCase(UsuarioRepository usuarioRepository, ConexaoOpenFinanceRepository conexaoGateway, ContaFinanceiraRepository contaFinanceiraRepository, PluggyGateway pluggyGateway, InstituicaoFinanceiraRepository instituicaoGateway, OpenFinanceApplicationService openFinanceApplicationService, SincronizarContaRepository sincronizarContaRepository) {
+        this.usuarioRepository = usuarioRepository;
         this.conexaoGateway = conexaoGateway;
-        this.contaFinanceiraGateway = contaFinanceiraGateway;
+        this.contaFinanceiraRepository = contaFinanceiraRepository;
         this.pluggyGateway = pluggyGateway;
         this.instituicaoGateway = instituicaoGateway;
         this.openFinanceApplicationService = openFinanceApplicationService;
-        this.sincronizarContaGateway = sincronizarContaGateway;
+        this.sincronizarContaRepository = sincronizarContaRepository;
     }
 
 
@@ -46,7 +47,7 @@ public class PluggyClientItemUseCase {
             throw new ItemJaRegistrado("Item ja registrado!");
         }
 
-        Usuario usuario = usuarioGateway.buscaIdUsuario(data.getUsuarioId());
+        Usuario usuario = usuarioRepository.buscaIdUsuario(data.getUsuarioId());
 
 
         InstituicaoFinanceira inst = resolverInstituicao(data);
@@ -66,18 +67,18 @@ public class PluggyClientItemUseCase {
         List<PluggyItemAccounts> contas = pluggyGateway.getItemsAccount(conexaoOpenFinance.getPluggyItemId());
 
         return contas.stream().map(c->
-                ContaFinanceira.novo(conexaoOpenFinance,c.getType(),c.getSubtype(),c.getName(),c.getBalance(),c.getId(),c.getNumber(),c.getCreatedAt(),c.getUpdatedAt())).collect(Collectors.toList());
+                ContaFinanceira.novo(conexaoOpenFinance,c.getType(),c.getSubtype(),c.getName(),c.getBalance(),c.getId(),c.getNumber(),c.getCreatedAt(),c.getUpdatedAt(),OrigemTransacao.OPEN_FINANCE)).collect(Collectors.toList());
 
     }
 
     public void sincronizarContas(ConexaoOpenFinance conexao,List<ContaFinanceira> contas) {
 
-        contaFinanceiraGateway.saveAll(contas);
+        contaFinanceiraRepository.saveAll(contas);
 
 
         contas.forEach(conta -> {
 
-            sincronizarContaGateway.save(
+            sincronizarContaRepository.save(
                     SincronizacaoConta.nova(conta.getItemId()));
 
         });
@@ -96,7 +97,7 @@ public class PluggyClientItemUseCase {
                             data.getConnectorTypeBank()
                     );
 
-                    return instituicaoGateway.salvar(nova); // <- REAL persistência
+                    return instituicaoGateway.salvar(nova);
                 });
     }
 

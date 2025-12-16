@@ -5,7 +5,7 @@ import org.example.granafacil.core.domain.enums.StatusSincronizacao;
 
 import java.util.List;
 
-public interface SincronizarContaGateway {
+public interface SincronizarContaRepository {
 
     SincronizacaoConta findByIdConta(String id);
     void save(SincronizacaoConta conta);

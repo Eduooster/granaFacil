@@ -1,6 +1,6 @@
 package org.example.granafacil.core.domain.enums;
 
-public enum CategoriaTipo {
+public enum CategoriaInterna {
 
     SALARIO,
     DECIMO_TERCEIRO,

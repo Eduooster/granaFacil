@@ -1,10 +1,17 @@
 package org.example.granafacil.core.domain.entities;
 
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import org.example.granafacil.core.domain.enums.OrigemTransacao;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class ContaFinanceira{
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "conexao_open_finance_id", nullable = true)
     private ConexaoOpenFinance conexaoOpenFinance;
     private String type;
     private String subtype;
@@ -15,8 +22,13 @@ public class ContaFinanceira{
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private SincronizacaoConta status;
+    private OrigemTransacao origemTransacao;
 
-    public ContaFinanceira(Long id, ConexaoOpenFinance conexaoOpenFinance, String type, String subtype, String name, BigDecimal balance, String itemId, String number, LocalDateTime createdAt, LocalDateTime updatedAt) {
+
+
+
+
+    public ContaFinanceira(Long id, ConexaoOpenFinance conexaoOpenFinance, String type, String subtype, String name, BigDecimal balance, String itemId, String number, LocalDateTime createdAt, LocalDateTime updatedAt,OrigemTransacao origemTransacao) {
         this.id = id;
         this.conexaoOpenFinance = conexaoOpenFinance;
         this.type = type;
@@ -27,6 +39,8 @@ public class ContaFinanceira{
         this.number = number;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.origemTransacao = origemTransacao;
+
     }
 
     @Override
@@ -47,8 +61,8 @@ public class ContaFinanceira{
 
 
 
-    public static ContaFinanceira novo(ConexaoOpenFinance conexaoOpenFinance, String type, String subtype, String name, BigDecimal balance, String accountId, String number, LocalDateTime createdAt, LocalDateTime updatedAt){
-        return new ContaFinanceira(null,conexaoOpenFinance,type,subtype,name,balance,accountId,number,createdAt,updatedAt);
+    public static ContaFinanceira novo(ConexaoOpenFinance conexaoOpenFinance, String type, String subtype, String name, BigDecimal balance, String accountId, String number, LocalDateTime createdAt, LocalDateTime updatedAt, OrigemTransacao origem) {
+        return new ContaFinanceira(null,conexaoOpenFinance,type,subtype,name,balance,accountId,number,createdAt,updatedAt,origem);
 
     }
 

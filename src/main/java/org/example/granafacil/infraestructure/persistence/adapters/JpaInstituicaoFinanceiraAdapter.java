@@ -1,10 +1,9 @@
 package org.example.granafacil.infraestructure.persistence.adapters;
 
-import org.example.granafacil.core.application.gateways.InstituicaoFinanceiraGateway;
+import org.example.granafacil.core.application.gateways.InstituicaoFinanceiraRepository;
 import org.example.granafacil.core.domain.entities.InstituicaoFinanceira;
 import org.example.granafacil.infraestructure.persistence.entites.InstituicaoFinanceiraEntity;
 import org.example.granafacil.infraestructure.persistence.mapper.InstituicaEntityMapper;
-import org.example.granafacil.infraestructure.persistence.repositories.InstituicaoFinanceiraRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -14,13 +13,13 @@ import java.util.Optional;
 
 
 @Component
-public class JpaInstituicaoFinanceiraAdapter implements InstituicaoFinanceiraGateway {
+public class JpaInstituicaoFinanceiraAdapter implements InstituicaoFinanceiraRepository {
 
-    private final InstituicaoFinanceiraRepository instituicaoFinanceiraRepository;
+    private final org.example.granafacil.infraestructure.persistence.repositories.InstituicaoFinanceiraRepository instituicaoFinanceiraRepository;
     private final InstituicaEntityMapper instituicaEntityMapper;
     private static final Logger log = LoggerFactory.getLogger(JpaInstituicaoFinanceiraAdapter.class);
 
-    public JpaInstituicaoFinanceiraAdapter(InstituicaoFinanceiraRepository instituicaoFinanceiraRepository, InstituicaEntityMapper instituicaEntityMapper) {
+    public JpaInstituicaoFinanceiraAdapter(org.example.granafacil.infraestructure.persistence.repositories.InstituicaoFinanceiraRepository instituicaoFinanceiraRepository, InstituicaEntityMapper instituicaEntityMapper) {
         this.instituicaoFinanceiraRepository = instituicaoFinanceiraRepository;
         this.instituicaEntityMapper = instituicaEntityMapper;
     }

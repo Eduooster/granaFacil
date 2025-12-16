@@ -7,10 +7,12 @@ import org.example.granafacil.core.domain.enums.PerfilFinanceiro;
 
 import java.util.Optional;
 
-public interface UsuarioGateway {
+public interface UsuarioRepository {
     void save(Usuario usuario);
     Usuario criar(Usuario usuario);
     Optional<Usuario> buscarPorEmail(String email);
+    Usuario getMe(Long idUsario);
+
 
 
 

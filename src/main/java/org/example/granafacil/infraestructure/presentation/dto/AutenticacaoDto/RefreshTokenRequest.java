@@ -1,4 +1,4 @@
 package org.example.granafacil.infraestructure.presentation.dto.AutenticacaoDto;
 
-public record DadosTokenJwtResponseDto(String tokenJWT,String refresh_token) {
+public record RefreshTokenRequest(String refreshToken) {
 }

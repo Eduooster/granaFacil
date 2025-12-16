@@ -4,7 +4,7 @@ import org.example.granafacil.core.domain.entities.ConexaoOpenFinance;
 
 import java.util.Optional;
 
-public interface ConexaoOpenFinanceGateway {
+public interface ConexaoOpenFinanceRepository {
 
     ConexaoOpenFinance salvar(ConexaoOpenFinance conexao);
 
