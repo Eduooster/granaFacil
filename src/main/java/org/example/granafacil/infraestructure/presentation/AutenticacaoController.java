@@ -45,7 +45,7 @@ public class AutenticacaoController {
     public ResponseEntity registrar(@Valid  @RequestBody UsuarioRegisterRequestDto dto, UriComponentsBuilder uriBuilder) throws NoSuchAlgorithmException {
 
         DadosTokenJwtResponseDto dadosAuth = registrarUsuarioUseCase.execute(
-                dto.nome(),dto.sobrenome(),dto.email(),dto.senha(),dto.confirmarSenha());
+                dto.nome(),dto.sobrenome(),dto.email(),dto.senha());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(dadosAuth);
     }

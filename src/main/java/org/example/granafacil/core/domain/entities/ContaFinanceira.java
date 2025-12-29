@@ -3,67 +3,86 @@ package org.example.granafacil.core.domain.entities;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import org.example.granafacil.core.domain.enums.OrigemTransacao;
+import org.example.granafacil.core.domain.enums.ProviderAccount;
+import org.example.granafacil.core.domain.enums.SubtipoConta;
+import org.example.granafacil.core.domain.enums.TipoConta;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class ContaFinanceira{
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "conexao_open_finance_id", nullable = true)
-    private ConexaoOpenFinance conexaoOpenFinance;
-    private String type;
-    private String subtype;
+    private Usuario usuario;
+    private InstituicaoFinanceira instituicaoFinanceira;
+    private String tipo;
+    private String subtipo;
     private String name;
-    private BigDecimal balance;
-    private String itemId;
+    private BigDecimal currentBalance;
+    private Instant balanceUpdatedAt;
+
+    private String externalAccountId;
+    private ProviderAccount provider;
     private String number;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private SincronizacaoConta status;
-    private OrigemTransacao origemTransacao;
+    private ConexaoOpenFinance conexao;
 
 
-
-
-
-    public ContaFinanceira(Long id, ConexaoOpenFinance conexaoOpenFinance, String type, String subtype, String name, BigDecimal balance, String itemId, String number, LocalDateTime createdAt, LocalDateTime updatedAt,OrigemTransacao origemTransacao) {
-        this.id = id;
-        this.conexaoOpenFinance = conexaoOpenFinance;
-        this.type = type;
-        this.subtype = subtype;
-        this.name = name;
-        this.balance = balance;
-        this.itemId = itemId;
-        this.number = number;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.origemTransacao = origemTransacao;
-
-    }
+    private Instant createdAt;
+    private Instant updatedAt;
 
     @Override
     public String toString() {
         return "ContaFinanceira{" +
                 "id=" + id +
-                ", conexaoOpenFinance=" + conexaoOpenFinance.getId() +
-                ", type='" + type + '\'' +
-                ", subtype='" + subtype + '\'' +
+                ", usuario=" + usuario +
+                ", instituicaoFinanceira=" + instituicaoFinanceira +
+                ", tipo='" + tipo + '\'' +
+                ", subtipo='" + subtipo + '\'' +
                 ", name='" + name + '\'' +
-                ", balance=" + balance +
-                ", accountId='" + itemId + '\'' +
+                ", currentBalance=" + currentBalance +
+                ", balanceUpdatedAt=" + balanceUpdatedAt +
+                ", externalAccountId='" + externalAccountId + '\'' +
+                ", provider=" + provider +
                 ", number='" + number + '\'' +
+                ", conexaoOpenFinance=" + conexao +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
     }
 
+    public ContaFinanceira(Long id, Usuario usuario, InstituicaoFinanceira instituicaoFinanceira, String tipo, String subtipo, String name, BigDecimal currentBalance, Instant balanceUpdatedAt, String externalAccountId, ProviderAccount provider, String number, ConexaoOpenFinance conexao, Instant createdAt, Instant updatedAt) {
+        this.id = id;
+        this.usuario = usuario;
+        this.instituicaoFinanceira = instituicaoFinanceira;
+        this.tipo = tipo;
+        this.subtipo = subtipo;
+        this.name = name;
+        this.conexao = conexao;
+        this.currentBalance = currentBalance;
+        this.balanceUpdatedAt = balanceUpdatedAt;
 
+        this.externalAccountId = externalAccountId;
+        this.provider = provider;
+        this.number = number;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
-    public static ContaFinanceira novo(ConexaoOpenFinance conexaoOpenFinance, String type, String subtype, String name, BigDecimal balance, String accountId, String number, LocalDateTime createdAt, LocalDateTime updatedAt, OrigemTransacao origem) {
-        return new ContaFinanceira(null,conexaoOpenFinance,type,subtype,name,balance,accountId,number,createdAt,updatedAt,origem);
+    public static ContaFinanceira novo(Usuario usuario, InstituicaoFinanceira instituicaoFinanceira, String tipo, String subtipo, String name, BigDecimal currentBalance, String externalAccountId, ProviderAccount provider, String number,ConexaoOpenFinance conexaoOpenFinance) {
+        return new ContaFinanceira(null,usuario,instituicaoFinanceira,tipo,subtipo,name,currentBalance,null,externalAccountId,provider,number,conexaoOpenFinance,null,null);
+    }
 
+    public static ContaFinanceira contaCarteira(Usuario usuario) {
+        return new ContaFinanceira(null,usuario,null,"Conta carteira" , "Conta Carteira",null,BigDecimal.ZERO, null,null,ProviderAccount.MANUAL,"teste",null,null,null);
+    }
+
+    public ConexaoOpenFinance getConexao() {
+        return conexao;
+    }
+
+    public void setConexao(ConexaoOpenFinance conexao) {
+        this.conexao = conexao;
     }
 
     public Long getId() {
@@ -74,28 +93,36 @@ public class ContaFinanceira{
         this.id = id;
     }
 
-    public ConexaoOpenFinance getConexaoOpenFinance() {
-        return conexaoOpenFinance;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setConexaoOpenFinance(ConexaoOpenFinance conexaoOpenFinance) {
-        this.conexaoOpenFinance = conexaoOpenFinance;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public String getType() {
-        return type;
+    public InstituicaoFinanceira getInstituicaoFinanceira() {
+        return instituicaoFinanceira;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setInstituicaoFinanceira(InstituicaoFinanceira instituicaoFinanceira) {
+        this.instituicaoFinanceira = instituicaoFinanceira;
     }
 
-    public String getSubtype() {
-        return subtype;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setSubtype(String subtype) {
-        this.subtype = subtype;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getSubtipo() {
+        return subtipo;
+    }
+
+    public void setSubtipo(String subtipo) {
+        this.subtipo = subtipo;
     }
 
     public String getName() {
@@ -106,20 +133,36 @@ public class ContaFinanceira{
         this.name = name;
     }
 
-    public BigDecimal getBalance() {
-        return balance;
+    public BigDecimal getCurrentBalance() {
+        return currentBalance;
     }
 
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
+    public void setCurrentBalance(BigDecimal currentBalance) {
+        this.currentBalance = currentBalance;
     }
 
-    public String getItemId() {
-        return itemId;
+    public Instant getBalanceUpdatedAt() {
+        return balanceUpdatedAt;
     }
 
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
+    public void setBalanceUpdatedAt(Instant balanceUpdatedAt) {
+        this.balanceUpdatedAt = balanceUpdatedAt;
+    }
+
+    public String getExternalAccountId() {
+        return externalAccountId;
+    }
+
+    public void setExternalAccountId(String externalAccountId) {
+        this.externalAccountId = externalAccountId;
+    }
+
+    public ProviderAccount getProvider() {
+        return provider;
+    }
+
+    public void setProvider(ProviderAccount provider) {
+        this.provider = provider;
     }
 
     public String getNumber() {
@@ -130,19 +173,19 @@ public class ContaFinanceira{
         this.number = number;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public Instant getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

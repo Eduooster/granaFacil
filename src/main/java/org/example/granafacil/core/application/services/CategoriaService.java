@@ -1,10 +1,12 @@
 package org.example.granafacil.core.application.services;
 
 import org.example.granafacil.core.domain.enums.CategoriaInterna;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.HashMap;
 
+@Service
 public class CategoriaService {
 
     public static final Map<String, CategoriaInterna> pluggyToInterna = new HashMap<>();
@@ -26,6 +28,20 @@ public class CategoriaService {
         pluggyToInterna.put("19050005", CategoriaInterna.MANUTENCAO_VEICULO);
         pluggyToInterna.put("19050002", CategoriaInterna.ESTACIONAMENTO);
         pluggyToInterna.put("19050003", CategoriaInterna.PEDAGIO);
+
+        pluggyToInterna.put("05070000", CategoriaInterna.TRANSFERENCIA_PIX);
+        pluggyToInterna.put("08040000", CategoriaInterna.VESTUARIO);
+        pluggyToInterna.put("07000000", CategoriaInterna.SERVICOS);
+        pluggyToInterna.put("07030001", CategoriaInterna.ACADEMIAS_E_FITNESS);
+        pluggyToInterna.put("05080000", CategoriaInterna.TRANSFERENCIA_TED);
+        pluggyToInterna.put("03000000", CategoriaInterna.INVESTIMENTOS);
+        pluggyToInterna.put("04000000", CategoriaInterna.TRANSFERENCIA_MESMA_PESSOA);
+        pluggyToInterna.put("10000000", CategoriaInterna.ALIMENTACAO);
+        pluggyToInterna.put("03060000", CategoriaInterna.PROVENTOS_JUROS_DIVIDENDOS);
+        pluggyToInterna.put("11010000", CategoriaInterna.ALIMENTACAO_FORA_CASA);
+        pluggyToInterna.put("07010001", CategoriaInterna.INTERNET);
+        pluggyToInterna.put("11000000", CategoriaInterna.ALIMENTACAO_BEBIDAS);
+        pluggyToInterna.put("08000000", CategoriaInterna.COMPRAS);
 
 
         pluggyToInterna.put("18020000", CategoriaInterna.FARMACIA);

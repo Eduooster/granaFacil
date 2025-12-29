@@ -5,53 +5,79 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.example.granafacil.core.domain.enums.StatusSincronizacao;
+import org.example.granafacil.core.domain.enums.TipoSincronizacao;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "GF_SINCRONIZACAO_CONTA")
 
-@ToString
+
 public class SincronizacaoContaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String idConta;
-    private String origem;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "conexao_id", nullable = false)
+    private ConexaoOpenFinanceEntity conexao;
 
-    private LocalDateTime ultimaDataSync;
-    private Long ultimoIdProcessado;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "conta_id")
+    private ContaFinanceiraEntity conta;
 
     @Enumerated(EnumType.STRING)
-    private StatusSincronizacao statusAtual;
-    private String mensagemErro;
+    @Column(nullable = false)
+    private TipoSincronizacao tipo;
 
-    private LocalDateTime dataInicioExecucao;
-    private LocalDateTime dataFimExecucao;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StatusSincronizacao status;
 
-    private Integer paginaAtual;
+    private String erro;
 
+    private Instant startedAt;
+    private Instant finishedAt;
 
-    private LocalDateTime atualizadoEm;
+    private Instant ultimaDataSync;
+
+    private Long lastProcessedExternalId;
+    private Integer currentPage;
+
+    @CreationTimestamp
+    private Instant createdAt;
+
+    @UpdateTimestamp
+    private Instant updatedAt;
 
     @Override
     public String toString() {
         return "SincronizacaoContaEntity{" +
                 "id=" + id +
-                ", idConta=" + idConta +
-                ", origem='" + origem + '\'' +
-                ", ultimaDataSync=" + ultimaDataSync +
-                ", ultimoIdProcessado=" + ultimoIdProcessado +
-                ", statusAtual=" + statusAtual +
-                ", mensagemErro='" + mensagemErro + '\'' +
-                ", dataInicioExecucao=" + dataInicioExecucao +
-                ", dataFimExecucao=" + dataFimExecucao +
-                ", paginaAtual=" + paginaAtual +
-
-                ", atualizadoEm=" + atualizadoEm +
+                ", conexao=" +
+                ", conta=" + conta +
+                ", tipo=" + tipo +
+                ", status=" + status +
+                ", erro='" + erro + '\'' +
+                ", startedAt=" + startedAt +
+                ", finishedAt=" + finishedAt +
+                ", lastProcessedExternalId=" + lastProcessedExternalId +
+                ", currentPage=" + currentPage +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
+    }
+
+    public Instant getUltimaDataSync() {
+        return ultimaDataSync;
+    }
+
+    public void setUltimaDataSync(Instant ultimaDataSync) {
+        this.ultimaDataSync = ultimaDataSync;
     }
 
     public Long getId() {
@@ -62,85 +88,91 @@ public class SincronizacaoContaEntity {
         this.id = id;
     }
 
-    public String getIdConta() {
-        return idConta;
+    public ConexaoOpenFinanceEntity getConexao() {
+        return conexao;
     }
 
-    public void setIdConta(String idConta) {
-        this.idConta = idConta;
+    public void setConexao(ConexaoOpenFinanceEntity conexao) {
+        this.conexao = conexao;
     }
 
-    public String getOrigem() {
-        return origem;
+    public ContaFinanceiraEntity getConta() {
+        return conta;
     }
 
-    public void setOrigem(String origem) {
-        this.origem = origem;
+    public void setConta(ContaFinanceiraEntity conta) {
+        this.conta = conta;
     }
 
-    public LocalDateTime getUltimaDataSync() {
-        return ultimaDataSync;
+    public TipoSincronizacao getTipo() {
+        return tipo;
     }
 
-    public void setUltimaDataSync(LocalDateTime ultimaDataSync) {
-        this.ultimaDataSync = ultimaDataSync;
+    public void setTipo(TipoSincronizacao tipo) {
+        this.tipo = tipo;
     }
 
-    public Long getUltimoIdProcessado() {
-        return ultimoIdProcessado;
+    public StatusSincronizacao getStatus() {
+        return status;
     }
 
-    public void setUltimoIdProcessado(Long ultimoIdProcessado) {
-        this.ultimoIdProcessado = ultimoIdProcessado;
+    public void setStatus(StatusSincronizacao status) {
+        this.status = status;
     }
 
-    public StatusSincronizacao getStatusAtual() {
-        return statusAtual;
+    public String getErro() {
+        return erro;
     }
 
-    public void setStatusAtual(StatusSincronizacao statusAtual) {
-        this.statusAtual = statusAtual;
+    public void setErro(String erro) {
+        this.erro = erro;
     }
 
-    public String getMensagemErro() {
-        return mensagemErro;
+    public Instant getStartedAt() {
+        return startedAt;
     }
 
-    public void setMensagemErro(String mensagemErro) {
-        this.mensagemErro = mensagemErro;
+    public void setStartedAt(Instant startedAt) {
+        this.startedAt = startedAt;
     }
 
-    public LocalDateTime getDataInicioExecucao() {
-        return dataInicioExecucao;
+    public Instant getFinishedAt() {
+        return finishedAt;
     }
 
-    public void setDataInicioExecucao(LocalDateTime dataInicioExecucao) {
-        this.dataInicioExecucao = dataInicioExecucao;
+    public void setFinishedAt(Instant finishedAt) {
+        this.finishedAt = finishedAt;
     }
 
-    public LocalDateTime getDataFimExecucao() {
-        return dataFimExecucao;
+    public Long getLastProcessedExternalId() {
+        return lastProcessedExternalId;
     }
 
-    public void setDataFimExecucao(LocalDateTime dataFimExecucao) {
-        this.dataFimExecucao = dataFimExecucao;
+    public void setLastProcessedExternalId(Long lastProcessedExternalId) {
+        this.lastProcessedExternalId = lastProcessedExternalId;
     }
 
-    public Integer getPaginaAtual() {
-        return paginaAtual;
+    public Integer getCurrentPage() {
+        return currentPage;
     }
 
-    public void setPaginaAtual(Integer paginaAtual) {
-        this.paginaAtual = paginaAtual;
+    public void setCurrentPage(Integer currentPage) {
+        this.currentPage = currentPage;
     }
 
-
-
-    public LocalDateTime getAtualizadoEm() {
-        return atualizadoEm;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
-    public void setAtualizadoEm(LocalDateTime atualizadoEm) {
-        this.atualizadoEm = atualizadoEm;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

@@ -7,9 +7,13 @@ import java.util.Optional;
 
 public interface TransacaoRepository {
 
-    Optional<Transacao> findByContaIdAndPluggyId(String contaId, String pluggyId);
+
 
     Transacao save(Transacao transacao);
 
     void saveAll(List<Transacao> transacoes);
+
+    Optional<Transacao> findByContaIdAndExternalTransactionId(Long contaId, String transactionId);
+
+
 }

@@ -4,11 +4,11 @@ import org.example.granafacil.core.application.gateways.UsuarioRepository;
 import org.example.granafacil.core.domain.entities.Usuario;
 import org.example.granafacil.core.domain.enums.ObjetivoFinanceiro;
 
-public class AtualizarObjetivoFinanceirolUsuario {
+public class AtualizarObjetivoFinanceirol {
 
     private final UsuarioRepository usuarioRepository;
 
-    public AtualizarObjetivoFinanceirolUsuario(UsuarioRepository usuarioRepository) {
+    public AtualizarObjetivoFinanceirol(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
 

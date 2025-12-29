@@ -6,7 +6,10 @@ import org.example.granafacil.infraestructure.persistence.entites.SincronizacaoC
 import org.mapstruct.Mapper;
 
 @Mapper(
-        componentModel = "spring"
+        componentModel = "spring",uses = {
+                ConexaoOpenFinanceEntityMapper.class,
+        ContaFinanceiraMapper.class
+}
 )
 public interface SincronizacaoContaMapper {
 

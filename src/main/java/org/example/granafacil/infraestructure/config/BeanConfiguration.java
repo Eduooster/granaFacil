@@ -1,9 +1,12 @@
 package org.example.granafacil.infraestructure.config;
 
 import org.example.granafacil.core.application.gateways.*;
-import org.example.granafacil.core.application.services.OpenFinanceApplicationService;
+import org.example.granafacil.core.application.orchestrator.OpenFinanceOrchestrator;
+import org.example.granafacil.core.application.services.CategoriaService;
+import org.example.granafacil.core.application.services.ClassificarMovimentacaoService;
 import org.example.granafacil.core.application.usecases.OpenFinanceUseCases.*;
 import org.example.granafacil.core.application.usecases.UsuarioUseCases.*;
+import org.example.granafacil.core.application.usecases.contaFinanceiraUseCases.ConsultarContasFinanceiras;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,53 +26,70 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public RegistrarUsuarioUseCase registrarUsuarioUseCase(UsuarioRepository usuarioRepository, PasswordEncoderService passwordEncoderService, TokenServiceGateway tokenServiceGateway, RefreshTokenRepository refreshTokenRepository, RefreshTokenGenerator refreshTokenGenerator) {
-        return new RegistrarUsuarioUseCase(passwordEncoderService, usuarioRepository,tokenServiceGateway, refreshTokenRepository,refreshTokenGenerator);
+    public RegistrarUsuarioUseCase registrarUsuarioUseCase(UsuarioRepository usuarioRepository, PasswordEncoderService passwordEncoderService, TokenServiceGateway tokenServiceGateway, RefreshTokenRepository refreshTokenRepository, RefreshTokenGenerator refreshTokenGenerator,ContaFinanceiraRepository contaFinanceiraRepository) {
+        return new RegistrarUsuarioUseCase(passwordEncoderService, usuarioRepository,tokenServiceGateway, refreshTokenRepository,refreshTokenGenerator,contaFinanceiraRepository);
 
     }
 
     @Bean
-    public AtualizarObjetivoFinanceirolUsuario atualizarObjetivoFinanceiroUsuario(UsuarioRepository usuarioRepository) {
-        return new AtualizarObjetivoFinanceirolUsuario(usuarioRepository);
+    public AtualizarObjetivoFinanceirol atualizarObjetivoFinanceiroUsuario(UsuarioRepository usuarioRepository) {
+        return new AtualizarObjetivoFinanceirol(usuarioRepository);
 
     }
     @Bean
-    public AtualizarFormaGerenciamentoFinancasUsuario atualizarFormaGerenciamentoFinancasUsuario(UsuarioRepository usuarioRepository) {
-        return new AtualizarFormaGerenciamentoFinancasUsuario(usuarioRepository);
+    public AtualizarFormaGerenciamentoFinancas atualizarFormaGerenciamentoFinancasUsuario(UsuarioRepository usuarioRepository) {
+        return new AtualizarFormaGerenciamentoFinancas(usuarioRepository);
     }
 
     @Bean
-    public AtualizarPerfilFinanceiroUsuario atualizarPerfilFinanceiroUsuario(UsuarioRepository usuarioRepository) {
-        return new AtualizarPerfilFinanceiroUsuario(usuarioRepository);
+    public AtualizarPerfilFinanceiro atualizarPerfilFinanceiroUsuario(UsuarioRepository usuarioRepository) {
+        return new AtualizarPerfilFinanceiro(usuarioRepository);
     }
 
     @Bean
-    public PluggyAuthUseCase pluggyAuthUseCase(PluggyGateway pluggyGateway) {
-        return new PluggyAuthUseCase(pluggyGateway);
+    public GerarAutenticacaoOpenFinanceUseCase pluggyAuthUseCase(PluggyGateway pluggyGateway) {
+        return new GerarAutenticacaoOpenFinanceUseCase(pluggyGateway);
     }
 
     @Bean
-    public PluggyClientConnectionUseCase pluggyClientConnectionUseCase(PluggyGateway pluggyGateway, PluggyAuthUseCase pluggyAuthUseCase) {
-        return new PluggyClientConnectionUseCase(pluggyGateway,pluggyAuthUseCase);
+    public GerarTokenConexaoUseCase pluggyClientConnectionUseCase(PluggyGateway pluggyGateway, GerarAutenticacaoOpenFinanceUseCase gerarAutenticacaoOpenFinanceUseCase) {
+        return new GerarTokenConexaoUseCase(pluggyGateway, gerarAutenticacaoOpenFinanceUseCase);
     }
 
     @Bean
-    public PluggyClientItemUseCase pluggyClientItemUseCase(UsuarioRepository usuarioRepository, ConexaoOpenFinanceRepository conexaoOpenFinanceRepository, ContaFinanceiraRepository contaFinanceiraRepository, PluggyGateway pluggyGateway , InstituicaoFinanceiraRepository instituicaoFinanceiraGateway, OpenFinanceApplicationService openFinanceApplicationService, SincronizarContaRepository sincronizarContaRepository) {
-        return new PluggyClientItemUseCase(usuarioRepository, conexaoOpenFinanceRepository, contaFinanceiraRepository,pluggyGateway,instituicaoFinanceiraGateway,openFinanceApplicationService, sincronizarContaRepository);
+    public CriarItemConexaoUseCase pluggyClientItemUseCase(UsuarioRepository usuarioRepository, ConexaoOpenFinanceRepository conexaoOpenFinanceRepository, InstituicaoFinanceiraRepository instituicaoFinanceiraGateway) {
+        return new CriarItemConexaoUseCase(usuarioRepository, conexaoOpenFinanceRepository ,instituicaoFinanceiraGateway);
     }
 
     @Bean
-    public ExecutarSincronizacaoUseCase executarSincronizacaoUseCase(PluggyGateway pluggyGateway, SincronizarContaRepository sincronizarContaRepository, TransacaoRepository transacaoRepository){
-        return new ExecutarSincronizacaoUseCase(pluggyGateway, sincronizarContaRepository, transacaoRepository);
+    public ExecutarSincronizacaoTransacaoUseCase executarSincronizacaoTransacaoUseCase(PluggyGateway pluggyGateway, ContaFinanceiraRepository contaFinanceiraRepository, TransacaoRepository transacaoRepository, CategoriaService categoriaService, ClassificarMovimentacaoService classificarMovimentacaoService) {
+        return new ExecutarSincronizacaoTransacaoUseCase(pluggyGateway,contaFinanceiraRepository,transacaoRepository,categoriaService,classificarMovimentacaoService);
+
     }
 
     @Bean
-    public SincronizarTransacoesUseCase sincronizarTransacoesUseCase(SincronizarContaRepository sincronizarContaRepository, PluggyGateway pluggyGateway, ExecutarSincronizacaoUseCase executarSincronizacaoUseCase) {
-        return new SincronizarTransacoesUseCase(sincronizarContaRepository,pluggyGateway,executarSincronizacaoUseCase);
+    public SincronizarTransacoesConexaoUseCase sincronizarTransacoesConexaoUseCase(SincronizarContaRepository sincronizarContaRepository,ConexaoOpenFinanceRepository conexaoOpenFinanceRepository,ExecutarSincronizacaoTransacaoUseCase executarSincronizacaoTransacaoUseCase,ContaFinanceiraRepository contaFinanceiraRepository) {
+        return new SincronizarTransacoesConexaoUseCase(sincronizarContaRepository,conexaoOpenFinanceRepository,executarSincronizacaoTransacaoUseCase,contaFinanceiraRepository);
+    }
 
+    @Bean
+    public ConsultarInformacoesPessoais pegarDadosUsuario(UsuarioRepository usuarioRepository) {
+        return new ConsultarInformacoesPessoais(usuarioRepository);
+    }
+
+    @Bean
+    public ConsultarContasFinanceiras consultarContasFinanceirasUsuario(ContaFinanceiraRepository contaFinanceiraRepository) {
+        return new ConsultarContasFinanceiras(contaFinanceiraRepository);
     }
     @Bean
-    public PegarDadosUsuario pegarDadosUsuario(UsuarioRepository usuarioRepository) {
-        return new PegarDadosUsuario(usuarioRepository);
+    public ImportarContasUseCase importarContasUseCase(ContaFinanceiraRepository contaFinanceiraRepository, SincronizarContaRepository sincronizarContaRepository,PluggyGateway pluggyGateway,ConexaoOpenFinanceRepository conexaoOpenFinanceRepository) {
+        return new ImportarContasUseCase(contaFinanceiraRepository,sincronizarContaRepository,pluggyGateway,conexaoOpenFinanceRepository);
+    }
+
+
+    @Bean
+    public OpenFinanceOrchestrator openFinanceOrchestrator(ImportarContasUseCase importarContasUseCase,CriarItemConexaoUseCase criarItemConexaoUseCase) {
+        return new OpenFinanceOrchestrator(importarContasUseCase,criarItemConexaoUseCase);
+
     }
 }

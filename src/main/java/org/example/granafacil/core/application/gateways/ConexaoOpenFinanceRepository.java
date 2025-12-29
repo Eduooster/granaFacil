@@ -8,7 +8,14 @@ public interface ConexaoOpenFinanceRepository {
 
     ConexaoOpenFinance salvar(ConexaoOpenFinance conexao);
 
-    Optional<ConexaoOpenFinance> buscarPorItemId(String pluggyItemId);
+
 
     Optional<ConexaoOpenFinance> findByPluggyItemIdAndAtivoTrue(String pluggyItemId);
+
+
+    Optional<ConexaoOpenFinance> findById(Long id);
+
+    void deletarItemId(String pluggyItemId);
+
+    boolean existsByPluggyItemId(String pluggyItemId);
 }

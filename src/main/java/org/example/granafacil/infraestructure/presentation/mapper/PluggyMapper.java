@@ -5,7 +5,10 @@ import org.example.granafacil.infraestructure.presentation.dto.pluggyDto.CreateI
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 @Mapper(componentModel = "spring")
 public interface PluggyMapper {
@@ -22,16 +25,16 @@ public interface PluggyMapper {
     @Mapping(target = "status", source = "item.status")
 
     // --- Datas ---
-    @Mapping(target = "dataCriacao", expression = "java(parse(dto.getItem().getCreatedAt()))")
-    @Mapping(target = "ultimoSync", expression = "java(parse(dto.getItem().getLastUpdatedAt()))")
+    @Mapping(target = "dataCriacao", source = "item.createdAt")
+    @Mapping(target = "ultimoSync", source = "item.lastUpdatedAt")
 
 
     PluggyItemData toDomain(CreateItemDto dto);
 
 
     // Conversão manual String → LocalDateTime
-    default LocalDateTime parse(String s) {
-        if (s == null) return null;
-        return LocalDateTime.parse(s);
+    default OffsetDateTime map(Instant instant) {
+        if (instant == null) return null;
+        return instant.atOffset(ZoneOffset.UTC);
     }
 }

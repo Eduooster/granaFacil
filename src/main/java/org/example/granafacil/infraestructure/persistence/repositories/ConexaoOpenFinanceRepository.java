@@ -13,4 +13,8 @@ public interface ConexaoOpenFinanceRepository extends JpaRepository<ConexaoOpenF
     Optional<ConexaoOpenFinanceEntity> findByPluggyItemId(String pluggyItemId);
 
     Optional<ConexaoOpenFinanceEntity> findByPluggyItemIdAndAtivoTrue(String pluggyItemId);
+
+    void deleteByPluggyItemId(String pluggyItemId);
+
+    boolean existsByPluggyItemId(String pluggyItemId);
 }

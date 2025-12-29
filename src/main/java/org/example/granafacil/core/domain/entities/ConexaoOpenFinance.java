@@ -2,48 +2,72 @@ package org.example.granafacil.core.domain.entities;
 
 
 
+import org.example.granafacil.core.domain.enums.ProviderAccount;
+import org.example.granafacil.core.domain.enums.StatusConexaoOpenFinance;
+import org.example.granafacil.infraestructure.persistence.entites.ContaFinanceiraEntity;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.List;
 
 //representa o item
 public class ConexaoOpenFinance{
 
     private Long id;
+
     private String status;
-    private LocalDateTime dataCriacao;
-    private LocalDateTime dataExpiracaoToken;
-    private LocalDateTime ultimoSync;
+
+    private ProviderAccount provider;
     private String pluggyItemId;
-    private InstituicaoFinanceira instituicaoFinanceira;//connector
+    private Instant createdAt;
+    private Instant tokenExpiresAt;
+
+
+    private Instant lastSuccessfulSyncAt;
+
+    private InstituicaoFinanceira instituicaoFinanceira;
     private Usuario usuario;
     private boolean ativo = true;
+    private List<ContaFinanceiraEntity> contas;
+
 
     public ConexaoOpenFinance() {}
 
-    public ConexaoOpenFinance(Long id, String status, LocalDateTime dataCriacao, LocalDateTime dataExpiracaoToken, LocalDateTime ultimoSync, String pluggyItemId, InstituicaoFinanceira instituicaoFinanceira, Usuario usuario, Boolean ativo) {
+    public ConexaoOpenFinance(Long id, String status, ProviderAccount provider, String pluggyItemId, Instant createdAt, Instant tokenExpiresAt, Instant lastSuccessfulSyncAt, InstituicaoFinanceira instituicaoFinanceira, Usuario usuario, boolean ativo, List<ContaFinanceiraEntity> contas) {
         this.id = id;
         this.status = status;
-        this.dataCriacao = dataCriacao;
-        this.dataExpiracaoToken = dataExpiracaoToken;
-        this.ultimoSync = ultimoSync;
+        this.provider = provider;
         this.pluggyItemId = pluggyItemId;
+        this.createdAt = createdAt;
+        this.tokenExpiresAt = tokenExpiresAt;
+        this.lastSuccessfulSyncAt = lastSuccessfulSyncAt;
         this.instituicaoFinanceira = instituicaoFinanceira;
         this.usuario = usuario;
         this.ativo = ativo;
+        this.contas = contas;
     }
 
-    public static ConexaoOpenFinance novo(
-            String status, LocalDateTime dataCriacao, LocalDateTime dataExpiracaoToken, LocalDateTime ultimoSync, String pluggyItemId, InstituicaoFinanceira instituicaoFinanceira, Usuario usuario, Boolean ativo
+    public static ConexaoOpenFinance novo(String status, ProviderAccount provider, String externalConnectionId, Instant createdAt, Instant tokenExpiresAt, Instant lastSuccessfulSyncAt, InstituicaoFinanceira instituicaoFinanceira, Usuario usuario) {
+        return new ConexaoOpenFinance(null,status,provider, externalConnectionId,createdAt,tokenExpiresAt,lastSuccessfulSyncAt,instituicaoFinanceira,usuario,true,null);
 
-    ){
-        return new ConexaoOpenFinance(null,status,dataCriacao,dataExpiracaoToken,ultimoSync,pluggyItemId,instituicaoFinanceira,usuario,ativo);
     }
 
-    public boolean getAtivo() {
+    public boolean isAtivo() {
         return ativo;
     }
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public List<ContaFinanceiraEntity> getContas() {
+        return contas;
+    }
+
+    public void setContas(List<ContaFinanceiraEntity> contas) {
+        this.contas = contas;
     }
 
     public Long getId() {
@@ -62,28 +86,12 @@ public class ConexaoOpenFinance{
         this.status = status;
     }
 
-    public LocalDateTime getDataCriacao() {
-        return dataCriacao;
+    public ProviderAccount getProvider() {
+        return provider;
     }
 
-    public void setDataCriacao(LocalDateTime dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
-
-    public LocalDateTime getDataExpiracaoToken() {
-        return dataExpiracaoToken;
-    }
-
-    public void setDataExpiracaoToken(LocalDateTime dataExpiracaoToken) {
-        this.dataExpiracaoToken = dataExpiracaoToken;
-    }
-
-    public LocalDateTime getUltimoSync() {
-        return ultimoSync;
-    }
-
-    public void setUltimoSync(LocalDateTime ultimoSync) {
-        this.ultimoSync = ultimoSync;
+    public void setProvider(ProviderAccount provider) {
+        this.provider = provider;
     }
 
     public String getPluggyItemId() {
@@ -92,6 +100,30 @@ public class ConexaoOpenFinance{
 
     public void setPluggyItemId(String pluggyItemId) {
         this.pluggyItemId = pluggyItemId;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getTokenExpiresAt() {
+        return tokenExpiresAt;
+    }
+
+    public void setTokenExpiresAt(Instant tokenExpiresAt) {
+        this.tokenExpiresAt = tokenExpiresAt;
+    }
+
+    public Instant getLastSuccessfulSyncAt() {
+        return lastSuccessfulSyncAt;
+    }
+
+    public void setLastSuccessfulSyncAt(Instant lastSuccessfulSyncAt) {
+        this.lastSuccessfulSyncAt = lastSuccessfulSyncAt;
     }
 
     public InstituicaoFinanceira getInstituicaoFinanceira() {
@@ -115,12 +147,14 @@ public class ConexaoOpenFinance{
         return "ConexaoOpenFinance{" +
                 "id=" + id +
                 ", status='" + status + '\'' +
-                ", dataCriacao=" + dataCriacao +
-                ", dataExpiracaoToken=" + dataExpiracaoToken +
-                ", ultimoSync=" + ultimoSync +
+                ", provider=" + provider +
                 ", pluggyItemId='" + pluggyItemId + '\'' +
-                ", instituicaoFinanceira=" + instituicaoFinanceira +
+                ", createdAt=" + createdAt +
+                ", tokenExpiresAt=" + tokenExpiresAt +
+                ", lastSuccessfulSyncAt=" + lastSuccessfulSyncAt +
+                ", instituicaoFinanceira=" + instituicaoFinanceira.getName() +
                 ", usuario=" + usuario.getId() +
+                ", ativo=" + ativo +
                 '}';
     }
 }

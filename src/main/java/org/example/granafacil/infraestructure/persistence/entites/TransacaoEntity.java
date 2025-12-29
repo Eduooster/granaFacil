@@ -2,7 +2,13 @@ package org.example.granafacil.infraestructure.persistence.entites;
 
 import jakarta.persistence.*;
 import org.example.granafacil.core.domain.enums.CategoriaInterna;
+import org.example.granafacil.core.domain.enums.OrigemTransacao;
+import org.example.granafacil.core.domain.enums.TipoMovimentacao;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,8 +19,12 @@ public class TransacaoEntity {
     @Column(nullable = false)
     private Long id;
 
-    private String pluggyId;
-    private String contaId;
+
+    @Column(name = "external_transaction_id", nullable = false, updatable = false)
+    private String externalTransactionId;
+
+
+    private Long contaId;
 
     private String descricao;
     private String descricaoRaw;
@@ -23,12 +33,21 @@ public class TransacaoEntity {
     private String tipo;
     private String status;
     private String moeda;
-    private Double valor;
-    private LocalDateTime data;
-    private Double saldo;
+    private BigDecimal valor;
+    private Instant data;
 
-    private LocalDateTime dataImportacao;
-    private LocalDateTime dataAtualizacao;
+    @Enumerated(EnumType.STRING)
+    private OrigemTransacao origemTransacao;
+
+    @CreationTimestamp
+    private Instant createdAt;
+
+    @UpdateTimestamp
+    private Instant updatedAt;
+
+    @Enumerated(EnumType.STRING)
+    private TipoMovimentacao tipoMovimentacao;
+    @Enumerated(EnumType.STRING)
     private CategoriaInterna categoriaInterna;
 
     private Boolean ativo = Boolean.TRUE;
@@ -37,8 +56,8 @@ public class TransacaoEntity {
     public String toString() {
         return "TransacaoEntity{" +
                 "id=" + id +
-                ", pluggyId='" + pluggyId + '\'' +
-                ", contaId='" + contaId + '\'' +
+
+                ", contaId='"  + '\'' +
                 ", descricao='" + descricao + '\'' +
                 ", descricaoRaw='" + descricaoRaw + '\'' +
                 ", categoria='" + categoria + '\'' +
@@ -48,11 +67,17 @@ public class TransacaoEntity {
                 ", moeda='" + moeda + '\'' +
                 ", valor=" + valor +
                 ", data=" + data +
-                ", saldo=" + saldo +
-                ", dataImportacao=" + dataImportacao +
-                ", dataAtualizacao=" + dataAtualizacao +
+
                 ", ativo=" + ativo +
                 '}';
+    }
+
+    public TipoMovimentacao getTipoMovimentacao() {
+        return tipoMovimentacao;
+    }
+
+    public void setTipoMovimentacao(TipoMovimentacao tipoMovimentacao) {
+        this.tipoMovimentacao = tipoMovimentacao;
     }
 
     public CategoriaInterna getCategoriaInterna() {
@@ -63,20 +88,22 @@ public class TransacaoEntity {
         this.categoriaInterna = categoriaInterna;
     }
 
-    public String getPluggyId() {
-        return pluggyId;
-    }
 
-    public void setPluggyId(String pluggyId) {
-        this.pluggyId = pluggyId;
-    }
 
-    public String getContaId() {
+    public Long getContaId() {
         return contaId;
     }
 
-    public void setContaId(String contaId) {
+    public void setContaId(Long contaId) {
         this.contaId = contaId;
+    }
+
+    public String getExternalTransactionId() {
+        return externalTransactionId;
+    }
+
+    public void setExternalTransactionId(String externalTransactionId) {
+        this.externalTransactionId = externalTransactionId;
     }
 
     public String getDescricao() {
@@ -135,44 +162,46 @@ public class TransacaoEntity {
         this.moeda = moeda;
     }
 
-    public Double getValor() {
+    public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(Double valor) {
+    public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
 
-    public LocalDateTime getData() {
+    public Instant getData() {
         return data;
     }
 
-    public void setData(LocalDateTime data) {
+    public void setData(Instant data) {
         this.data = data;
     }
 
-    public Double getSaldo() {
-        return saldo;
+
+
+    public OrigemTransacao getOrigemTransacao() {
+        return origemTransacao;
     }
 
-    public void setSaldo(Double saldo) {
-        this.saldo = saldo;
+    public void setOrigemTransacao(OrigemTransacao origemTransacao) {
+        this.origemTransacao = origemTransacao;
     }
 
-    public LocalDateTime getDataImportacao() {
-        return dataImportacao;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
-    public void setDataImportacao(LocalDateTime dataImportacao) {
-        this.dataImportacao = dataImportacao;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public LocalDateTime getDataAtualizacao() {
-        return dataAtualizacao;
+    public Instant getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
-        this.dataAtualizacao = dataAtualizacao;
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public Boolean getAtivo() {

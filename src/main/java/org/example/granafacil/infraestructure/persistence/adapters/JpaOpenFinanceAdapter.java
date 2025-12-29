@@ -31,17 +31,27 @@ public class JpaOpenFinanceAdapter implements ConexaoOpenFinanceRepository {
          return conexaoOpenFinanceEntityMapper.toDomain(conexaoOpenFinanceRepository.save(entity));
     }
 
-    @Override
-    public Optional<ConexaoOpenFinance> buscarPorItemId(String pluggyItemId) {
-
-        return conexaoOpenFinanceRepository.findByPluggyItemId(pluggyItemId)
-                .map(cf -> conexaoOpenFinanceEntityMapper.toDomain(cf));
-    }
 
     @Override
     public Optional<ConexaoOpenFinance> findByPluggyItemIdAndAtivoTrue(String pluggyItemId) {
         return conexaoOpenFinanceRepository
                 .findByPluggyItemIdAndAtivoTrue(pluggyItemId)
                 .map(cf-> conexaoOpenFinanceEntityMapper.toDomain(cf));
+    }
+
+    @Override
+    public Optional<ConexaoOpenFinance> findById(Long id) {
+        return conexaoOpenFinanceRepository.findById(id)
+                .map(cf-> conexaoOpenFinanceEntityMapper.toDomain(cf));
+    }
+
+    @Override
+    public void deletarItemId(String pluggyItemId) {
+        conexaoOpenFinanceRepository.deleteByPluggyItemId(pluggyItemId);
+    }
+
+    @Override
+    public boolean existsByPluggyItemId(String pluggyItemId) {
+        return conexaoOpenFinanceRepository.existsByPluggyItemId(pluggyItemId);
     }
 }

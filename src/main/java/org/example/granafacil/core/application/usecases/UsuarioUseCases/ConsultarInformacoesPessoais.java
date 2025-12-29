@@ -6,11 +6,11 @@ import org.example.granafacil.core.application.gateways.UsuarioRepository;
 import org.example.granafacil.core.domain.entities.Usuario;
 
 @Slf4j
-public class PegarDadosUsuario {
+public class ConsultarInformacoesPessoais {
 
     private final UsuarioRepository usuarioRepository;
 
-    public PegarDadosUsuario(UsuarioRepository usuarioRepository) {
+    public ConsultarInformacoesPessoais(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
 

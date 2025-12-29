@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -84,15 +85,17 @@ public class PluggyAdapter implements PluggyGateway {
                     .bodyToMono(PluggyAccountsResponse.class)
                     .block();
 
-            log.info(response.toString());
+            log.info("item" + response.toString());
 
             return response.getResults();
 
 
     }
 
+
+
     @Override
-    public TransactionsResponse listarTransacoes(String accountId, Integer page, LocalDateTime from) {
+    public TransactionsResponse listarTransacoes(String accountId, Integer page, Instant from, Instant to) {
         String apiKey = gerarApiKey();
 
         return webClient.get()
@@ -107,13 +110,17 @@ public class PluggyAdapter implements PluggyGateway {
                     }
 
 
-                    if (from != null) {
-                        String fromIso = from
-                                .atZone(ZoneId.systemDefault())
-                                .withZoneSameInstant(ZoneOffset.UTC)
-                                .format(DateTimeFormatter.ISO_INSTANT);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                            .withZone(ZoneOffset.UTC);
 
-                        builder.queryParam("from", fromIso);
+
+                    if (from != null) {
+                        builder.queryParam("from", formatter.format(from));
+                    }
+
+
+                    if (to != null) {
+                        builder.queryParam("to", formatter.format(to));
                     }
 
                     return builder.build();
@@ -123,7 +130,6 @@ public class PluggyAdapter implements PluggyGateway {
                 .bodyToMono(TransactionsResponse.class)
                 .block();
     }
-
 
 
 

@@ -1,59 +1,74 @@
 package org.example.granafacil.infraestructure.persistence.entites;
 
 import jakarta.persistence.*;
+import org.example.granafacil.core.domain.enums.OrigemTransacao;
+import org.example.granafacil.core.domain.enums.SubtipoConta;
+import org.example.granafacil.core.domain.enums.TipoConta;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
 
 @Table(name = "GF_CONTA_FINANCEIRA")
 public class ContaFinanceiraEntity {
+
+
     @Id
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
     private Long id;
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "conexao_id", nullable = true)
+    private ConexaoOpenFinanceEntity conexao;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private UsuarioEntity usuario;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "conexao_id")
-    private ConexaoOpenFinanceEntity conexaoOpenFinance;
+    @JoinColumn(name = "instituicao_id")
+    private InstituicaoFinanceiraEntity instituicaoFinanceira;
 
 
+    @Column(nullable = false)
+    private String tipo;
 
 
-    private String type;
-    private String subtype;
+    private String subtipo;
+
+
     private String name;
-    private BigDecimal balance;
-    private String itemId;
+
+    private BigDecimal currentBalance;
+    private Instant balanceUpdatedAt;
+
+    private String externalAccountId;
+    private String provider;
+
+
+    //adiconar flag de ativo
+
+
     @Column(name = "ACCOUNT_NUMBER")
     private String number;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
-    @Override
-    public String toString() {
-        return "ContaFinanceiraEntity{" +
-                "id=" + id +
-                ", type='" + type + '\'' +
-                ", subtype='" + subtype + '\'' +
-                ", name='" + name + '\'' +
-                ", balance=" + balance +
-                ", itemId='" + itemId + '\'' +
-                ", number='" + number + '\'' +
+    @CreationTimestamp
+    private Instant createdAt;
 
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
+    @UpdateTimestamp
+    private Instant updatedAt;
+
+    public ConexaoOpenFinanceEntity getConexao() {
+        return conexao;
     }
 
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
+    public void setConexao(ConexaoOpenFinanceEntity conexao) {
+        this.conexao = conexao;
     }
 
     public Long getId() {
@@ -64,28 +79,36 @@ public class ContaFinanceiraEntity {
         this.id = id;
     }
 
-    public ConexaoOpenFinanceEntity getConexaoOpenFinance() {
-        return conexaoOpenFinance;
+    public UsuarioEntity getUsuario() {
+        return usuario;
     }
 
-    public void setConexaoOpenFinance(ConexaoOpenFinanceEntity conexaoOpenFinance) {
-        this.conexaoOpenFinance = conexaoOpenFinance;
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
     }
 
-    public String getType() {
-        return type;
+    public InstituicaoFinanceiraEntity getInstituicaoFinanceira() {
+        return instituicaoFinanceira;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setInstituicaoFinanceira(InstituicaoFinanceiraEntity instituicaoFinanceira) {
+        this.instituicaoFinanceira = instituicaoFinanceira;
     }
 
-    public String getSubtype() {
-        return subtype;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setSubtype(String subtype) {
-        this.subtype = subtype;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getSubtipo() {
+        return subtipo;
+    }
+
+    public void setSubtipo(String subtipo) {
+        this.subtipo = subtipo;
     }
 
     public String getName() {
@@ -96,37 +119,60 @@ public class ContaFinanceiraEntity {
         this.name = name;
     }
 
-    public BigDecimal getBalance() {
-        return balance;
+    public BigDecimal getCurrentBalance() {
+        return currentBalance;
     }
 
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
+    public void setCurrentBalance(BigDecimal currentBalance) {
+        this.currentBalance = currentBalance;
     }
 
-    public String getItemId() {
-        return itemId;
+    public Instant getBalanceUpdatedAt() {
+        return balanceUpdatedAt;
     }
 
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
+    public void setBalanceUpdatedAt(Instant balanceUpdatedAt) {
+        this.balanceUpdatedAt = balanceUpdatedAt;
+    }
+
+    public String getExternalAccountId() {
+        return externalAccountId;
+    }
+
+    public void setExternalAccountId(String externalAccountId) {
+        this.externalAccountId = externalAccountId;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
     }
 
 
+    public String getNumber() {
+        return number;
+    }
 
-    public LocalDateTime getCreatedAt() {
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public Instant getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

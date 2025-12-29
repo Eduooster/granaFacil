@@ -1,5 +1,6 @@
 package org.example.granafacil.core.application.dtos;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class TransactionDTO {
@@ -8,9 +9,9 @@ public class TransactionDTO {
     private String description;
     private String descriptionRaw;
     private String currencyCode;
-    private Double amount;
+    private BigDecimal amount;
     private LocalDateTime date;
-    private Double balance;
+    private BigDecimal balance;
     private String category;
     private String categoryId;
     private String accountId;
@@ -82,11 +83,11 @@ public class TransactionDTO {
         this.currencyCode = currencyCode;
     }
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
@@ -98,11 +99,11 @@ public class TransactionDTO {
         this.date = date;
     }
 
-    public Double getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(Double balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 

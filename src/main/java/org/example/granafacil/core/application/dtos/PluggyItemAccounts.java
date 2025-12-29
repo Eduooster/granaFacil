@@ -1,6 +1,10 @@
 package org.example.granafacil.core.application.dtos;
 
+import org.example.granafacil.core.domain.enums.SubtipoConta;
+import org.example.granafacil.core.domain.enums.TipoConta;
+
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 public class PluggyItemAccounts {
@@ -11,8 +15,11 @@ public class PluggyItemAccounts {
     private BigDecimal balance;
     private String itemId;
     private String number;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
+
+
+
 
     @Override
     public String toString() {
@@ -26,6 +33,8 @@ public class PluggyItemAccounts {
                 ", number='" + number + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
+
+
                 '}';
     }
 
@@ -85,19 +94,19 @@ public class PluggyItemAccounts {
         this.number = number;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public Instant getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

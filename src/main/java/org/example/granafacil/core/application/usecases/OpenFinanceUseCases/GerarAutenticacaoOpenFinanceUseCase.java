@@ -7,13 +7,13 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 import java.time.Instant;
 
-public class PluggyAuthUseCase {
-    private static final Logger log = LoggerFactory.getLogger(PluggyAuthUseCase.class);
+public class GerarAutenticacaoOpenFinanceUseCase {
+    private static final Logger log = LoggerFactory.getLogger(GerarAutenticacaoOpenFinanceUseCase.class);
     private final PluggyGateway pluggyGateway;
     private String apiKey;
     private Instant expiration =Instant.MIN;
 
-    public PluggyAuthUseCase(PluggyGateway pluggyGateway) {
+    public GerarAutenticacaoOpenFinanceUseCase(PluggyGateway pluggyGateway) {
         this.pluggyGateway = pluggyGateway;
     }
 

@@ -1,6 +1,11 @@
 package org.example.granafacil.infraestructure.presentation.dto.pluggyDto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.ToString;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @ToString
 public class CreateItemDto {
@@ -20,8 +25,10 @@ public class CreateItemDto {
     public static class Item {
         private String id;
         private String status;
-        private String lastUpdatedAt;
-        private String createdAt;
+
+        private LocalDateTime lastUpdatedAt;
+
+        private LocalDateTime createdAt;
         private Connector connector;
 
         public String getId() {
@@ -40,19 +47,19 @@ public class CreateItemDto {
             this.status = status;
         }
 
-        public String getLastUpdatedAt() {
+        public LocalDateTime getLastUpdatedAt() {
             return lastUpdatedAt;
         }
 
-        public void setLastUpdatedAt(String lastUpdatedAt) {
+        public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) {
             this.lastUpdatedAt = lastUpdatedAt;
         }
 
-        public String getCreatedAt() {
+        public LocalDateTime getCreatedAt() {
             return createdAt;
         }
 
-        public void setCreatedAt(String createdAt) {
+        public void setCreatedAt(LocalDateTime createdAt) {
             this.createdAt = createdAt;
         }
 

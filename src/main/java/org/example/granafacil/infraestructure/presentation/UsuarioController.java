@@ -1,18 +1,15 @@
 package org.example.granafacil.infraestructure.presentation;
 
-import org.example.granafacil.core.application.usecases.UsuarioUseCases.AtualizarFormaGerenciamentoFinancasUsuario;
-import org.example.granafacil.core.application.usecases.UsuarioUseCases.AtualizarObjetivoFinanceirolUsuario;
-import org.example.granafacil.core.application.usecases.UsuarioUseCases.AtualizarPerfilFinanceiroUsuario;
-import org.example.granafacil.core.application.usecases.UsuarioUseCases.PegarDadosUsuario;
-import org.example.granafacil.core.domain.entities.Usuario;
+import org.example.granafacil.core.application.usecases.UsuarioUseCases.AtualizarFormaGerenciamentoFinancas;
+import org.example.granafacil.core.application.usecases.UsuarioUseCases.AtualizarObjetivoFinanceirol;
+import org.example.granafacil.core.application.usecases.UsuarioUseCases.AtualizarPerfilFinanceiro;
+import org.example.granafacil.core.application.usecases.UsuarioUseCases.ConsultarInformacoesPessoais;
 import org.example.granafacil.infraestructure.persistence.entites.UsuarioEntity;
 import org.example.granafacil.infraestructure.persistence.mapper.UsuarioEntityMapper;
 import org.example.granafacil.infraestructure.presentation.dto.UsuarioDto.DefinirFormaGerenciamentorDto;
 import org.example.granafacil.infraestructure.presentation.dto.UsuarioDto.DefinirObjetivoFinanceiroDto;
 import org.example.granafacil.infraestructure.presentation.dto.UsuarioDto.DefinirPerfilFinanceiroDto;
 import org.example.granafacil.infraestructure.security.TokenServiceAdapter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -22,17 +19,17 @@ import org.springframework.web.bind.annotation.*;
 public class UsuarioController {
 
 
-    private final AtualizarFormaGerenciamentoFinancasUsuario atualizarFormaGerenciamentoFinancasUsuario;
-    private final AtualizarPerfilFinanceiroUsuario atualizarPerfilFinanceiroUsuario;
-    private final AtualizarObjetivoFinanceirolUsuario atualizarObjetivoFinanceirolUsuario;
+    private final AtualizarFormaGerenciamentoFinancas atualizarFormaGerenciamentoFinancasUsuario;
+    private final AtualizarPerfilFinanceiro atualizarPerfilFinanceiro;
+    private final AtualizarObjetivoFinanceirol atualizarObjetivoFinanceirolUsuario;
     private final TokenServiceAdapter tokenServiceAdapter;
-    private final PegarDadosUsuario pegarDadosUsuario;
+    private final ConsultarInformacoesPessoais pegarDadosUsuario;
     private final UsuarioEntityMapper usuarioEntityMapper;
 
 
-    public UsuarioController(AtualizarFormaGerenciamentoFinancasUsuario atualizarFormaGerenciamentoFinancasUsuario, AtualizarPerfilFinanceiroUsuario atualizarPerfilFinanceiroUsuario, AtualizarObjetivoFinanceirolUsuario atualizarObjetivoFinanceirolUsuario, TokenServiceAdapter tokenServiceAdapter, PegarDadosUsuario pegarDadosUsuario, UsuarioEntityMapper usuarioEntityMapper) {
+    public UsuarioController(AtualizarFormaGerenciamentoFinancas atualizarFormaGerenciamentoFinancasUsuario, AtualizarPerfilFinanceiro atualizarPerfilFinanceiro, AtualizarObjetivoFinanceirol atualizarObjetivoFinanceirolUsuario, TokenServiceAdapter tokenServiceAdapter, ConsultarInformacoesPessoais pegarDadosUsuario, UsuarioEntityMapper usuarioEntityMapper) {
         this.atualizarFormaGerenciamentoFinancasUsuario = atualizarFormaGerenciamentoFinancasUsuario;
-        this.atualizarPerfilFinanceiroUsuario = atualizarPerfilFinanceiroUsuario;
+        this.atualizarPerfilFinanceiro = atualizarPerfilFinanceiro;
         this.atualizarObjetivoFinanceirolUsuario = atualizarObjetivoFinanceirolUsuario;
         this.tokenServiceAdapter = tokenServiceAdapter;
         this.pegarDadosUsuario = pegarDadosUsuario;
@@ -43,7 +40,7 @@ public class UsuarioController {
     public ResponseEntity atualizarPerfilFinanceiro(@AuthenticationPrincipal UsuarioEntity usuario, @RequestBody DefinirPerfilFinanceiroDto definirPerfilFinanceiroDto) {
 
 
-        atualizarPerfilFinanceiroUsuario.execute(usuarioEntityMapper.toDomain(usuario),definirPerfilFinanceiroDto.perfil());
+        atualizarPerfilFinanceiro.execute(usuarioEntityMapper.toDomain(usuario),definirPerfilFinanceiroDto.perfil());
 
         return ResponseEntity.noContent().build();
 
@@ -66,6 +63,7 @@ public class UsuarioController {
     public ResponseEntity getMe(@AuthenticationPrincipal UsuarioEntity usuario) {
         return ResponseEntity.ok(pegarDadosUsuario.execute(usuario.getId()));
     }
+
 
 
 }

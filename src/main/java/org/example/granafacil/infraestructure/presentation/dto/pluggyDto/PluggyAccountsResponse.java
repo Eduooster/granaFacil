@@ -15,4 +15,11 @@ public class PluggyAccountsResponse {
     public void setResults(List<PluggyItemAccounts> results) {
         this.results = results;
     }
+
+    @Override
+    public String toString() {
+        return "PluggyAccountsResponse{" +
+                "results=" + results +
+                '}';
+    }
 }

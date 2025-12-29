@@ -23,14 +23,7 @@ public class JpaTransacaoAdapter implements TransacaoRepository {
         this.transacaoMapper = transacaoMapper;
     }
 
-    @Override
-    public Optional<Transacao> findByContaIdAndPluggyId(String contaId, String pluggyId) {
 
-        var entity = transacaoRepositoryImpl.findByContaIdAndPluggyId(contaId, pluggyId);
-
-        return Optional.ofNullable(entity)
-                .map(transacaoMapper::toDomain);
-    }
 
     @Override
     public Transacao save(Transacao t) {
@@ -41,8 +34,21 @@ public class JpaTransacaoAdapter implements TransacaoRepository {
 
     @Override
     public void saveAll(List<Transacao> transacoes) {
+        log.info("executando saveAll");
+        log.info("transacoes domain: {}", transacoes);
         List<TransacaoEntity> entity = transacaoMapper.toEntityList(transacoes);
+
+        log.info("transacoes entities: {}", entity);
+
         transacaoRepositoryImpl.saveAll(entity);
 
     }
+
+    @Override
+    public Optional<Transacao> findByContaIdAndExternalTransactionId(Long contaId, String transactionId) {
+        return transacaoRepositoryImpl.findByContaIdAndExternalTransactionId(contaId,transactionId);
+    }
+
+
+
 }
