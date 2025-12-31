@@ -1,10 +1,9 @@
 package org.example.granafacil.core.application.orchestrator;
 
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import org.example.granafacil.core.application.dtos.PluggyItemData;
-import org.example.granafacil.core.application.usecases.OpenFinanceUseCases.CriarItemConexaoUseCase;
-import org.example.granafacil.core.application.usecases.OpenFinanceUseCases.ImportarContasUseCase;
+import org.example.granafacil.core.application.dtos.PluggyDtos.PluggyItemData;
+import org.example.granafacil.core.application.usecases.openFinance.CriarItemConexaoUseCase;
+import org.example.granafacil.core.application.usecases.openFinance.ImportarContasUseCase;
 import org.example.granafacil.core.domain.entities.ConexaoOpenFinance;
 
 @Slf4j

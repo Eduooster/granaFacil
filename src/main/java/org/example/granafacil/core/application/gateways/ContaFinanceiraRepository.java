@@ -1,10 +1,8 @@
 package org.example.granafacil.core.application.gateways;
 
-import org.example.granafacil.core.application.dtos.ContaFinanceiraResponse;
-import org.example.granafacil.core.application.dtos.PluggyItemAccounts;
+import org.example.granafacil.core.application.dtos.ContaFinanceiraDtos.ContaFinanceiraResponse;
 import org.example.granafacil.core.domain.entities.ContaFinanceira;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 

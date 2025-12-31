@@ -4,9 +4,11 @@ import org.example.granafacil.core.application.gateways.*;
 import org.example.granafacil.core.application.orchestrator.OpenFinanceOrchestrator;
 import org.example.granafacil.core.application.services.CategoriaService;
 import org.example.granafacil.core.application.services.ClassificarMovimentacaoService;
-import org.example.granafacil.core.application.usecases.OpenFinanceUseCases.*;
-import org.example.granafacil.core.application.usecases.UsuarioUseCases.*;
-import org.example.granafacil.core.application.usecases.contaFinanceiraUseCases.ConsultarContasFinanceiras;
+import org.example.granafacil.core.application.services.GerarInsightService;
+import org.example.granafacil.core.application.usecases.resumo.ObterResumoMensalUseCase;
+import org.example.granafacil.core.application.usecases.openFinance.*;
+import org.example.granafacil.core.application.usecases.usuario.*;
+import org.example.granafacil.core.application.usecases.contaFinanceira.ConsultarContasFinanceiras;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -91,5 +93,10 @@ public class BeanConfiguration {
     public OpenFinanceOrchestrator openFinanceOrchestrator(ImportarContasUseCase importarContasUseCase,CriarItemConexaoUseCase criarItemConexaoUseCase) {
         return new OpenFinanceOrchestrator(importarContasUseCase,criarItemConexaoUseCase);
 
+    }
+
+    @Bean
+    public ObterResumoMensalUseCase obterResumoMensalUseCase(TransacaoRepository transacaoRepository, GerarInsightService gerarInsightService) {
+        return new ObterResumoMensalUseCase(transacaoRepository,gerarInsightService);
     }
 }

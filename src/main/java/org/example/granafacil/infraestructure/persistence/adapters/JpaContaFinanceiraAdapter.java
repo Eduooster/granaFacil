@@ -1,7 +1,6 @@
 package org.example.granafacil.infraestructure.persistence.adapters;
 
-import org.example.granafacil.core.application.dtos.ContaFinanceiraResponse;
-import org.example.granafacil.core.application.dtos.PluggyItemAccounts;
+import org.example.granafacil.core.application.dtos.ContaFinanceiraDtos.ContaFinanceiraResponse;
 import org.example.granafacil.core.application.gateways.ContaFinanceiraRepository;
 import org.example.granafacil.core.domain.entities.ContaFinanceira;
 import org.example.granafacil.infraestructure.persistence.entites.ContaFinanceiraEntity;

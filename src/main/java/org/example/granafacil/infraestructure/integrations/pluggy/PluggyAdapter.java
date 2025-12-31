@@ -1,7 +1,7 @@
 package org.example.granafacil.infraestructure.integrations.pluggy;
 
-import org.example.granafacil.core.application.dtos.PluggyItemAccounts;
-import org.example.granafacil.core.application.dtos.TransactionsResponse;
+import org.example.granafacil.core.application.dtos.PluggyDtos.PluggyItemAccounts;
+import org.example.granafacil.core.application.dtos.TransacaoDtos.TransactionsResponse;
 import org.example.granafacil.core.application.gateways.PluggyGateway;
 import org.example.granafacil.infraestructure.presentation.dto.pluggyDto.AcessTokenResponse;
 import org.example.granafacil.infraestructure.presentation.dto.pluggyDto.AuthRequest;
@@ -14,8 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.List;

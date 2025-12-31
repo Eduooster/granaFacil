@@ -1,8 +1,7 @@
 package org.example.granafacil.infraestructure.presentation;
 
-import org.example.granafacil.core.application.dtos.ContaFinanceiraResponse;
-import org.example.granafacil.core.application.usecases.contaFinanceiraUseCases.ConsultarContasFinanceiras;
-import org.example.granafacil.core.domain.entities.Usuario;
+import org.example.granafacil.core.application.dtos.ContaFinanceiraDtos.ContaFinanceiraResponse;
+import org.example.granafacil.core.application.usecases.contaFinanceira.ConsultarContasFinanceiras;
 import org.example.granafacil.infraestructure.persistence.entites.UsuarioEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

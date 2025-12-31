@@ -1,9 +1,9 @@
 package org.example.granafacil.infraestructure.presentation;
 
-import org.example.granafacil.core.application.usecases.UsuarioUseCases.AtualizarFormaGerenciamentoFinancas;
-import org.example.granafacil.core.application.usecases.UsuarioUseCases.AtualizarObjetivoFinanceirol;
-import org.example.granafacil.core.application.usecases.UsuarioUseCases.AtualizarPerfilFinanceiro;
-import org.example.granafacil.core.application.usecases.UsuarioUseCases.ConsultarInformacoesPessoais;
+import org.example.granafacil.core.application.usecases.usuario.AtualizarFormaGerenciamentoFinancas;
+import org.example.granafacil.core.application.usecases.usuario.AtualizarObjetivoFinanceirol;
+import org.example.granafacil.core.application.usecases.usuario.AtualizarPerfilFinanceiro;
+import org.example.granafacil.core.application.usecases.usuario.ConsultarInformacoesPessoais;
 import org.example.granafacil.infraestructure.persistence.entites.UsuarioEntity;
 import org.example.granafacil.infraestructure.persistence.mapper.UsuarioEntityMapper;
 import org.example.granafacil.infraestructure.presentation.dto.UsuarioDto.DefinirFormaGerenciamentorDto;

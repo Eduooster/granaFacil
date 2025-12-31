@@ -1,7 +1,6 @@
 package org.example.granafacil.infraestructure.persistence.repositories;
 
-import org.example.granafacil.core.application.dtos.ContaFinanceiraResponse;
-import org.example.granafacil.core.application.dtos.PluggyItemAccounts;
+import org.example.granafacil.core.application.dtos.ContaFinanceiraDtos.ContaFinanceiraResponse;
 import org.example.granafacil.core.domain.entities.ContaFinanceira;
 import org.example.granafacil.infraestructure.persistence.entites.ContaFinanceiraEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,7 +14,7 @@ public interface ContaFinanceiraRepository extends JpaRepository<ContaFinanceira
 
             @Query("""
 
-            SELECT new org.example.granafacil.core.application.dtos.ContaFinanceiraResponse(
+            SELECT new org.example.granafacil.core.application.dtos.ContaFinanceiraDtos.ContaFinanceiraResponse(
                                                                     c.id,
             c.name,
             c.currentBalance,

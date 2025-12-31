@@ -1,12 +1,11 @@
 package org.example.granafacil.infraestructure.presentation.mapper;
 
-import org.example.granafacil.core.application.dtos.PluggyItemData;
+import org.example.granafacil.core.application.dtos.PluggyDtos.PluggyItemData;
 import org.example.granafacil.infraestructure.presentation.dto.pluggyDto.CreateItemDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 

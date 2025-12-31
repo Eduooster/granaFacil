@@ -1,7 +1,7 @@
 package org.example.granafacil.infraestructure.presentation.dto.pluggyDto;
 
 
-import org.example.granafacil.core.application.dtos.PluggyItemAccounts;
+import org.example.granafacil.core.application.dtos.PluggyDtos.PluggyItemAccounts;
 
 import java.util.List;
 

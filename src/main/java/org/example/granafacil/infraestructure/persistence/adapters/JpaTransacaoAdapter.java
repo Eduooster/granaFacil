@@ -1,5 +1,7 @@
 package org.example.granafacil.infraestructure.persistence.adapters;
 
+import org.example.granafacil.infraestructure.persistence.projections.FinanceiroResumoProjection;
+import org.example.granafacil.infraestructure.persistence.projections.MovimentacaoProjection;
 import org.example.granafacil.core.application.gateways.TransacaoRepository;
 import org.example.granafacil.core.domain.entities.Transacao;
 import org.example.granafacil.infraestructure.persistence.entites.TransacaoEntity;
@@ -7,8 +9,11 @@ import org.example.granafacil.infraestructure.persistence.mapper.TransacaoMapper
 import org.example.granafacil.infraestructure.persistence.repositories.TransacaoRepositoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +54,20 @@ public class JpaTransacaoAdapter implements TransacaoRepository {
         return transacaoRepositoryImpl.findByContaIdAndExternalTransactionId(contaId,transactionId);
     }
 
+    @Override
+    public FinanceiroResumoProjection calcularResumoFinanceiro(Long usuarioId,
+                                                               Instant inicio,
+                                                               Instant fim) {
+        return transacaoRepositoryImpl.calcularResumoFinanceiro(usuarioId,inicio,fim);
+    }
+
+    @Override
+    public Page<MovimentacaoProjection> buscarMovimentacoesRecentes(Long usuarioId,
+                                                                    Instant inicio,
+                                                                    Instant fim, Pageable pageable) {
+
+        return transacaoRepositoryImpl.buscarMovimentacoesRecentes(usuarioId,inicio,fim,pageable);
+    }
 
 
 }

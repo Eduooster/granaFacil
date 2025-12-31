@@ -1,15 +1,10 @@
 package org.example.granafacil.infraestructure.presentation;
 
-import jakarta.websocket.server.PathParam;
-import org.example.granafacil.core.application.gateways.SincronizarContaRepository;
 import org.example.granafacil.core.application.orchestrator.OpenFinanceOrchestrator;
-import org.example.granafacil.core.application.usecases.OpenFinanceUseCases.GerarTokenConexaoUseCase;
-import org.example.granafacil.core.application.usecases.OpenFinanceUseCases.CriarItemConexaoUseCase;
-import org.example.granafacil.core.application.usecases.OpenFinanceUseCases.SincronizarTransacoesConexaoUseCase;
+import org.example.granafacil.core.application.usecases.openFinance.GerarTokenConexaoUseCase;
+import org.example.granafacil.core.application.usecases.openFinance.SincronizarTransacoesConexaoUseCase;
 
-import org.example.granafacil.core.domain.entities.Usuario;
 import org.example.granafacil.infraestructure.persistence.entites.UsuarioEntity;
-import org.example.granafacil.infraestructure.persistence.mapper.UsuarioEntityMapper;
 import org.example.granafacil.infraestructure.presentation.dto.pluggyDto.AcessTokenResponse;
 import org.example.granafacil.infraestructure.presentation.dto.pluggyDto.CreateItemDto;
 import org.example.granafacil.infraestructure.presentation.mapper.PluggyMapper;
@@ -18,8 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RequestMapping("/open-finance")
 @RestController

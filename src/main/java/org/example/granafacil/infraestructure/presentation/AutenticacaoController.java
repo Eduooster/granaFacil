@@ -1,9 +1,9 @@
 package org.example.granafacil.infraestructure.presentation;
 
 import jakarta.validation.Valid;
-import org.example.granafacil.core.application.usecases.UsuarioUseCases.AutenticacaoUsuarioUseCase;
-import org.example.granafacil.core.application.usecases.UsuarioUseCases.RefreshTokenUseCase;
-import org.example.granafacil.core.application.usecases.UsuarioUseCases.RegistrarUsuarioUseCase;
+import org.example.granafacil.core.application.usecases.usuario.AutenticacaoUsuarioUseCase;
+import org.example.granafacil.core.application.usecases.usuario.RefreshTokenUseCase;
+import org.example.granafacil.core.application.usecases.usuario.RegistrarUsuarioUseCase;
 import org.example.granafacil.core.domain.exceptions.UnauthorizedException;
 import org.example.granafacil.infraestructure.presentation.dto.AutenticacaoDto.RefreshTokenRequest;
 import org.example.granafacil.infraestructure.presentation.dto.AutenticacaoDto.UsuarioLoginRequestDto;
@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 

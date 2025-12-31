@@ -1,11 +1,10 @@
 package org.example.granafacil.core.application.gateways;
 
 
-import org.example.granafacil.core.application.dtos.PluggyItemAccounts;
-import org.example.granafacil.core.application.dtos.TransactionsResponse;
+import org.example.granafacil.core.application.dtos.PluggyDtos.PluggyItemAccounts;
+import org.example.granafacil.core.application.dtos.TransacaoDtos.TransactionsResponse;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface PluggyGateway {
